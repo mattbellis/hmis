@@ -281,11 +281,11 @@ def get_subset_with_age_range(filename,lo=0, hi=1e9, matching_key='Personal ID')
     Args:
         filename (string): The name of the file that holds all of the dictionaries.
         lo (int): The lower bound of the targeted age range.
-            Defaults to: 0
+        Defaults to: 0
         hi (int): The upper bound of the targeted age range.
-            Defaults to: 1e9
+        Defaults to: 1e9
         matching_key (string): The value that determines the cross referencing between the files. 
-            Defaults to: 'Personal ID'
+        Defaults to: 'Personal ID'
     
     Returns: 
         people (list): The list of personal IDs that are within the range inputted. 
@@ -316,7 +316,7 @@ def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID')
         names (list): The list of personal IDs for analysis.
         full_dictionary (): The file of dictionaries that has been made.
         matching_key (string): The value that determines the cross referencing between the files. 
-            Defaults to: 'Personal ID'
+        Defaults to: 'Personal ID'
     
     Returns: 
         inds (list): The dictionaries of the individuals with the personal IDs inputted. 
@@ -363,9 +363,9 @@ def get_dictionaries_with_age_range(lo=0,hi=1e9):
     Args:
         filename (string): The name of the file that holds all of the dictionaries.
         lo (int): The lower bound of the targeted age range.
-            Defaults to: 0
+        Defaults to: 0
         hi (int): The upper bound of the targeted age range.
-            Defaults to: 1e9
+        Defaults to: 1e9
     
     Returns: 
         people (list): The list of personal IDs that are within the range inputted. 
