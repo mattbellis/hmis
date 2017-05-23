@@ -462,7 +462,7 @@ def plot_time_series_from_dict_list_new(inds, exploded_view=False, plot_w_plotly
 ################################################################################
 # Converts a string to a datetime object.
 ################################################################################
-def def get_date_from_string_new(datestring)::
+def get_date_from_string_new(datestring):
     """ This function converts the date as a string to a datetime object.
     
     Args:
