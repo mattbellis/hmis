@@ -13,6 +13,15 @@ hmis.parsing module
     :show-inheritance:
 
 
+hmis.visualizing module
+-----------------------
+
+.. automodule:: hmis.visualizing
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
 Module contents
 ---------------
 

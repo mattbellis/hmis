@@ -9,3 +9,4 @@ import matplotlib.pyplot as plt
 
 # This is for our own code.
 from hmis.parsing import *
+from hmis.visualizing import *
