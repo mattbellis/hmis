@@ -1,3 +1,4 @@
+#'''
 import os
 import pandas as pd
 import numpy as np
@@ -6,6 +7,7 @@ from datetime import timedelta, datetime
 import pickle
 import matplotlib.pyplot as plt
 from collections import OrderedDict
+#'''
 
 
 # There are two ways to get the individuals to visualize and analyze. 
@@ -56,7 +58,7 @@ def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
         site_file (Data Frame): All of the information from the site file.
     
     """
-    print directory
+    print(directory)
     # This takes care of things if the user passes in a tilde '~' which you want to expand to /home/USER/.
     directory = os.path.expanduser(directory)
 
@@ -136,7 +138,7 @@ def get_all_info_for_individuals_new(directory='~/hmis_data/',filenames=None):
     
     
     """
-    print directory
+    print(directory)
     # Read in all of the given HMIS files.
     enrollment_file,exit_file,project_file,client_file,site_file = read_in_data(directory=directory,filenames=filenames,verbose=True)
     
