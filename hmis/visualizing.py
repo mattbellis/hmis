@@ -82,7 +82,7 @@ def plot_time_series_from_dict_list_new(inds, exploded_view=False, plot_w_plotly
             Defaulted to: False.
         plot_w_plotly (bool): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
             Defaulted to: False.
-    
+
     """
     
     # If there is only one individual, make their dictionary a list with one item.

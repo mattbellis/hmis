@@ -374,9 +374,9 @@ def get_dictionaries_with_age_range(lo=0,hi=1e9):
     
     filename = read_in_data(filenames=['Client.csv'])
     filename = filename[0]
-    namesCL=filename['PersonalID']
-    client_dob= filename['DOB']
-
+    namesCL = filename['PersonalID']
+     
+    client_dob = filename['DOB']
     people=[]
     for num,x in enumerate(client_dob):
 
