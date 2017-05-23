@@ -56,7 +56,7 @@ def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
         site_file (Data Frame): All of the information from the site file.
     
     """
-
+    print directory
     # This takes care of things if the user passes in a tilde '~' which you want to expand to /home/USER/.
     directory = os.path.expanduser(directory)
 
@@ -136,7 +136,7 @@ def get_all_info_for_individuals_new(directory='~/hmis_data/',filenames=None):
     
     
     """
-    
+    print directory
     # Read in all of the given HMIS files.
     enrollment_file,exit_file,project_file,client_file,site_file = read_in_data(directory=directory,filenames=filenames,verbose=True)
     
@@ -526,6 +526,47 @@ def get_plotting_style_new(ptype):
     
     
     
+    
+    
+################################################################################
+# The following functions are to read in the data for the specified personal IDs.
+################################################################################
+
+
+################################################################################
+# Get all of the personal IDs within an age range.
+################################################################################
+def get_dictionaries_with_age_range(lo=0,hi=1e9):
+    """ This function finds the individuals within the age range and returns the personal IDs of those individuals. 
+    
+    Args:
+        filename (string): The name of the file that holds all of the dictionaries.
+        lo (int): The lower bound of the targeted age range.
+            Defaults to: 0
+        hi (int): The upper bound of the targeted age range.
+            Defaults to: 1e9
+    
+    Returns: 
+        people (list): The list of personal IDs that are within the range inputted. 
+    """
+    
+    filename = read_in_data(filenames=['Client.csv'])
+    filename = filename[0]
+    namesCL=filename['PersonalID']
+    client_dob= filename['DOB']
+
+    people=[]
+    for num,x in enumerate(client_dob):
+
+        month,day,year = x.split('-')
+        birthdate = dt.datetime(int(month),int(day),int(year))
+
+        age = dt.datetime.now() - birthdate
+        age_in_years = np.floor(np.abs(age.days/365.))
+
+        if age_in_years>=lo and age_in_years<=hi:
+            people.append(namesCL[num])
+    return people
     
     
     
