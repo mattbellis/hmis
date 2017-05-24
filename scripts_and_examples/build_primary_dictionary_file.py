@@ -8,7 +8,7 @@ hmis_data_location = '~/hmis_data/'
 # the different entries in the different files.
 print("Reading in and determining relationships in HMIS data...")
 print("This might take a while...up to an hour, depending on your machine.")
-inds = hmis.get_all_info_for_individuals_new(directory=hmis_data_location)
+inds = hmis.get_all_info_for_individuals(directory=hmis_data_location)
 
 # Write this dictionary to a pickled file.
 print("Writing pickle file...")
