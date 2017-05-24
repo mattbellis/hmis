@@ -21,6 +21,14 @@ hmis.visualizing module
     :undoc-members:
     :show-inheritance:
 
+hmis.selection module
+---------------------
+
+.. automodule:: hmis.selection
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
