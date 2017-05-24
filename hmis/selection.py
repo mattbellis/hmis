@@ -11,7 +11,7 @@ def read_dict_file(filename):
     """ This function finds the individuals within the age range and returns the dictionaries of those individuals. 
     
     Args:
-        **filename** (str): The name of the file that will be pickled.
+        **filename** (str): The name of the file that will be read in with pickle.
     
     Return:
         **dict_file** (list): All individual dictionaries in the file passed in.
@@ -42,13 +42,13 @@ def get_subset_with_age_range(filename,lo=0, hi=1e9, matching_key='Personal ID')
         **filename** (string): The name of the file that holds all of the dictionaries.
         
         **lo** (int): The lower bound of the targeted age range.
-        Defaults to: 0
+            Defaults to: 0
         
         **hi** (int): The upper bound of the targeted age range.
-        Defaults to: 1e9
+            Defaults to: 1e9
         
         **matching_key** (string): The value that determines the cross referencing between the files. 
-        Defaults to: 'Personal ID'
+            Defaults to: 'Personal ID'
     
     Returns: 
         **people** (list): The list of personal IDs that are within the range inputted. 
@@ -78,12 +78,12 @@ def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID')
     """ This function gets the subset of dictionaries from the personal IDs that are passed in.
     
     Args:
-        **names** (list): The list of personal IDs for analysis.
+        **names** (array): The list of personal IDs for analysis.
         
-        **full_dictionary** (): The file of dictionaries that has been made.
+        **full_dictionary** (list): The full list of dictionaries that has been made.
         
         **matching_key** (string): The value that determines the cross referencing between the files. 
-        Defaults to: 'Personal ID'
+            Defaults to: 'Personal ID'
     
     Returns: 
         **inds** (list): The dictionaries of the individuals with the personal IDs inputted. 
@@ -91,6 +91,7 @@ def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID')
     """
 
     inds = []
+    
 
     for name in names:
         for client in full_dictionary:
