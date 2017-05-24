@@ -9,10 +9,10 @@ def get_date_from_string(datestring):
     """ This function converts the date as a string to a datetime object.
     
     Args:
-        datestring (string): the date as a string.
+        **datestring** (string): the date as a string.
     
     Returns: 
-        date (datetime object): the date as a datetime object.
+        **date** (datetime object): the date as a datetime object.
         
     """
     
@@ -29,13 +29,16 @@ def get_plotting_style(ptype):
     """ This function gets the plotting styles depending on what the program is. 
     
     Args:
-        ptype (string): the project type.
+        **ptype** (string): the project type.
     
     Returns: 
-        color (): The color of the program's plot in RGB.
-        width (float): The width of the line of the program's plot.
-        alpha (float): The opaque value of the program's plot.
-        style (string): The style of the program's plot.
+        **color** (): The color of the program's plot in RGB.
+        
+        **width** (float): The width of the line of the program's plot.
+        
+        **alpha** (float): The opaque value of the program's plot.
+        
+        **style** (string): The style of the program's plot.
         
     """
 
@@ -73,14 +76,18 @@ def get_plotting_style(ptype):
 
 ################################################################################
 ################################################################################
-def plot_time_series_from_dict_list_new(inds, exploded_view=False, plot_w_plotly=False):  
+def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, plot_w_plotly=False):  
     """ This function plots the time-series for each individual that is inputted.
     
     Args:
-        inds (list): The list of dictionaries that are going to be plotted.
-        exploded_view (bool): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on the y-axis. 
+        **inds** (list): The list of dictionaries that are going to be plotted.
+        
+        **image_name** (string): The name of the figure that will be saved.
+        
+        **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on the y-axis. 
         Defaulted to: False.
-        plot_w_plotly (bool): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
+        
+        **plot_w_plotly** (bool, optional): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
         Defaulted to: False.
 
     """
@@ -117,6 +124,7 @@ def plot_time_series_from_dict_list_new(inds, exploded_view=False, plot_w_plotly
         
         program_count = 0
         for start,end,l,ptype in zip(start_dates,end_dates,lengths,proj_type):
+            
             # Handles nan
             if str(start)=='nan' or str(end)=='nan':
                 1
@@ -190,6 +198,8 @@ def plot_time_series_from_dict_list_new(inds, exploded_view=False, plot_w_plotly
         by_label = OrderedDict(list(zip(labels, handles)))
         plt.legend(list(by_label.values()), list(by_label.keys()), loc='upper left')
         plt.xlim(min_date-dt.timedelta(365),max_date)
+        plt.gcf().tight_layout()
+        plt.gcf().savefig(image_name,dpi=300)
 
     if exploded_view==False and plot_w_plotly==False:
         plt.ylim(-1,y+1)

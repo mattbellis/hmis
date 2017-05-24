@@ -28,10 +28,10 @@ def get_pids(enrollment_file):
     """ This function gets all of the personal ID in the enrollment file
     
     Args: 
-        enrollment_file (Data Frame): the enrollment file that has been read in with pandas
+        **enrollment_file** (Data Frame): the enrollment file that has been read in with pandas
         
     Returns:
-        personalids (array): 
+        **personalids** (array): 
     
     """
     namesEN = enrollment_file['PersonalID']
@@ -45,17 +45,21 @@ def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
     """ This function reads all of the HMIS files.
     
     Args: 
-        directory (string, optional): The directory where all of the HMIS files are stored. 
+        **directory** (string, optional): The directory where all of the HMIS files are stored. 
             Defaults to '~/hmis_data/'. 
-        filesname (string, optional): The name of the files to get information from. 
+        **filesname** (string, optional): The name of the files to get information from. 
             Defaults to None. 
         
     Returns:
-        enrollment_file (Data Frame): All of the information from the enrollment file.
-        exit_file (Data Frame): All of the information from the exit file.
-        project_file (Data Frame): All of the information from the project file.
-        client_file (Data Frame): All of the information from the client file.
-        site_file (Data Frame): All of the information from the site file.
+        **enrollment_file** (Data Frame): All of the information from the enrollment file.
+        
+        **exit_file** (Data Frame): All of the information from the exit file.
+        
+        **project_file** (Data Frame): All of the information from the project file.
+        
+        **client_file** (Data Frame): All of the information from the client file.
+        
+        **site_file** (Data Frame): All of the information from the site file.
     
     """
     print(directory)
@@ -108,13 +112,13 @@ def get_all_info_for_individuals_new(directory='~/hmis_data/',filenames=None):
     """ This function creates a file of all of the dictionaries in the given HMIS files.
     
     Args:
-        directory (string, optional): The directory where all of the HMIS files are stored. 
+        **directory** (string, optional): The directory where all of the HMIS files are stored. 
             Defaults to '~/hmis_data/'. 
-        filesname (string, optional): The name of the files to get information from.  
+        **filesname** (string, optional): The name of the files to get information from.  
             Defaults to None. 
             
     Returns:
-        individuals ()
+        **individuals** ()
     
     """
     print(directory)
@@ -243,8 +247,9 @@ def save_file(inds,filename):
     """ This function creates a file of all the dictionaries that are passed into this function.
     
     Args:
-        inds (): All of the dictionaries from the people in the enrollment file.
-        filename (string): The name of the file that the dictionaries will be saved as. Must be a .txt file. 
+        **inds** (): All of the dictionaries from the people in the enrollment file.
+        
+        **filename** (string): The name of the file that the dictionaries will be saved as. Must be a .txt file. 
     
     """
     outfile = open(filename,'wb')
@@ -262,13 +267,15 @@ def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID')
     """ This function gets the subset of dictionaries from the personal IDs that are passed in.
     
     Args:
-        names (list): The list of personal IDs for analysis.
-        full_dictionary (): The file of dictionaries that has been made.
-        matching_key (string): The value that determines the cross referencing between the files. 
+        **names** (list): The list of personal IDs for analysis.
+        
+        **full_dictionary** (): The file of dictionaries that has been made.
+        
+        **matching_key** (string): The value that determines the cross referencing between the files. 
         Defaults to: 'Personal ID'
     
     Returns: 
-        inds (list): The dictionaries of the individuals with the personal IDs inputted. 
+        **inds** (list): The dictionaries of the individuals with the personal IDs inputted. 
         
     """
 

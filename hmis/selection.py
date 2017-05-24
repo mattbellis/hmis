@@ -13,10 +13,10 @@ def calc_age(birthdate):
     """ This function converts the birthdate to a datetime object and subtracts today's date. This calculates the age of an individual.
     
     Args:
-        birthdate (string): The birthday of the individual.
+        **birthdate** (string): The birthday of the individual.
             
     Returns:
-        age (string): The age of the individual.
+        **age** (string): The age of the individual.
     
     
     """
@@ -38,16 +38,19 @@ def get_subset_with_age_range(filename,lo=0, hi=1e9, matching_key='Personal ID')
     """ This function finds the individuals within the age range and returns the dictionaries of those individuals. 
     
     Args:
-        filename (string): The name of the file that holds all of the dictionaries.
-        lo (int): The lower bound of the targeted age range.
+        **filename** (string): The name of the file that holds all of the dictionaries.
+        
+        **lo** (int): The lower bound of the targeted age range.
         Defaults to: 0
-        hi (int): The upper bound of the targeted age range.
+        
+        **hi** (int): The upper bound of the targeted age range.
         Defaults to: 1e9
-        matching_key (string): The value that determines the cross referencing between the files. 
+        
+        **matching_key** (string): The value that determines the cross referencing between the files. 
         Defaults to: 'Personal ID'
     
     Returns: 
-        people (list): The list of personal IDs that are within the range inputted. 
+        **people** (list): The list of personal IDs that are within the range inputted. 
         
     """
     
