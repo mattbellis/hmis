@@ -11,3 +11,4 @@ import matplotlib.pyplot as plt
 from hmis.parsing import *
 from hmis.visualizing import *
 from hmis.selection import *
+from hmis.general import *
