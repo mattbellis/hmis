@@ -18,7 +18,8 @@ from hmis.general import calc_age
 
 
 ################################################################################
-# The following functions are to read in all of the data and create the all individuals dictionaries first.
+# The following functions are to read in all of the data and create a master 
+# dictionary file with all individuals.
 ################################################################################
 
 
@@ -26,16 +27,17 @@ from hmis.general import calc_age
 # Get all of the personal IDs
 ################################################################################
 def get_pids(enrollment_file):
-    """ This function gets all of the personal ID in the enrollment file
+    """ This function gets all of the personal ID in the enrollment file.
     
     Args: 
-        **enrollment_file** (Data Frame): the enrollment file that has been read in with pandas
+        **enrollment_file** (Data Frame): the enrollment file that has been read in with pandas.
         
     Returns:
-        **personalids** (array): 
+        **personalids** (array): All Personal IDs from the individuals in the enrollment file.
     
     """
     namesEN = enrollment_file['PersonalID']
+  
     return np.array(namesEN)
 
 
@@ -43,13 +45,15 @@ def get_pids(enrollment_file):
 # Read in the file names only when we call this function.
 ################################################################################
 def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
-    """ This function reads all of the HMIS files.
+    """ This function reads all of the HMIS files inputted using pandas.
     
     Args: 
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
             Defaults to '~/hmis_data/'. 
         **filesname** (string, optional): The name of the files to get information from. 
             Defaults to None. 
+        **verbose** (bool, optional): This prints the file that is being read in, which helps with troubleshooting.
+            Defaults to False.
         
     Returns:
         **enrollment_file** (Data Frame): All of the information from the enrollment file.
@@ -107,10 +111,10 @@ def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
 
 
 ################################################################################
-# Make the large dictionary file.
+# Make the large list of dictionaries
 ################################################################################
-def get_all_info_for_individuals_new(directory='~/hmis_data/',filenames=None):
-    """ This function creates a file of all of the dictionaries in the given HMIS files.
+def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
+    """ This function creates a list of all dictionaries in the enrollment file.
     
     Args:
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
@@ -119,7 +123,7 @@ def get_all_info_for_individuals_new(directory='~/hmis_data/',filenames=None):
             Defaults to None. 
             
     Returns:
-        **individuals** ()
+        **individuals** (list): This is a list of all the individual's dictionaries.
     
     """
     print(directory)
@@ -242,15 +246,15 @@ def get_all_info_for_individuals_new(directory='~/hmis_data/',filenames=None):
 
 
 ################################################################################
-# Saves the dictionary file with pickle.
+# Saves the dictionary file by pickling the file.
 ################################################################################
 def save_file(inds,filename):
     """ This function creates a file of all the dictionaries that are passed into this function.
     
     Args:
-        **inds** (): All of the dictionaries from the people in the enrollment file.
+        **inds** (list): All of the dictionaries from the people in the enrollment file.
         
-        **filename** (string): The name of the file that the dictionaries will be saved as. Must be a .txt file. 
+        **filename** (string): The name of the file that the dictionaries will be saved as. This should be a .pkl file. 
     
     """
     outfile = open(filename,'wb')

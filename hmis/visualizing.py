@@ -12,19 +12,19 @@ from collections import OrderedDict
 # Converts a string to a datetime object.
 ################################################################################
 def get_plotting_style(ptype):
-    """ This function gets the plotting styles depending on what the program is. 
+    """ This function gets the plotting styles depending on the type of program. 
     
     Args:
-        **ptype** (string): the project type.
+        **ptype** (string): The project type.
     
     Returns: 
-        **color** (): The color of the program's plot in RGB.
+        **color** (): The color of the program in RGB.
         
-        **width** (float): The width of the line of the program's plot.
+        **width** (float): The width of the line of the program.
         
-        **alpha** (float): The opaque value of the program's plot.
+        **alpha** (float): The opaque value of the program.
         
-        **style** (string): The style of the program's plot.
+        **style** (string): The marker style of the program.
         
     """
 
@@ -70,7 +70,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         
         **image_name** (string): The name of the figure that will be saved.
         
-        **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on the y-axis. 
+        **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on the y-axis with multiple programs on one line.
         Defaulted to: False.
         
         **plot_w_plotly** (bool, optional): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
