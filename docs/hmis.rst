@@ -28,6 +28,14 @@ hmis.selection module
     :members:
     :undoc-members:
     :show-inheritance:
+    
+hmis.general module
+---------------------
+
+.. automodule:: hmis.general
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 
 Module contents

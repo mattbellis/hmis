@@ -20,6 +20,8 @@ import os
 #sys.path.insert(0, os.path.abspath(os.pardir))
 #sys.path.append('/home/bellis/hmis')
 #sys.path.insert(0, os.path.abspath(os.pardir))
+
+
 sys.path.append(os.path.abspath(os.pardir))
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
@@ -49,6 +51,10 @@ extensions = ['sphinx.ext.autodoc',
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+
+
+
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
