@@ -1,23 +1,9 @@
-
-
-
-
-################################################################################
-# Converts a string to a datetime object.
-################################################################################
-def get_date_from_string(datestring):
-    """ This function converts the date as a string to a datetime object.
-    
-    Args:
-        **datestring** (string): the date as a string.
-    
-    Returns: 
-        **date** (datetime object): the date as a datetime object.
-        
-    """
-    
-    date=pd.to_datetime(datestring)
-    return date
+import pandas as pd
+import matplotlib.pyplot as plt
+import datetime as dt
+import numpy as np
+from general import *
+from collections import OrderedDict
 
 
     
@@ -183,6 +169,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
                     color = '#%02x%02x%02x' % (int(color[0]),int(color[1]),int(color[2]))
                     plt.plot(x_point,y_point,marker=m_type,linewidth=width,color=color,alpha=alpha,linestyle=style, label=ptype)
                     plt.plot([0,1],[0,1])
+                    
 
                 # Keep track of max and min time to rescale axes later
                 if s<min_date:
@@ -200,8 +187,22 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         plt.xlim(min_date-dt.timedelta(365),max_date)
         plt.gcf().tight_layout()
         plt.gcf().savefig(image_name,dpi=300)
+        
 
     if exploded_view==False and plot_w_plotly==False:
         plt.ylim(-1,y+1)
     if plot_w_plotly ==True:
         iplot(program_list)
+        py.image.save_as(program_list, filename=image_name)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

@@ -1,32 +1,33 @@
-
-
-
-
+import numpy as np
+import pickle
 
 
 
 
 ################################################################################
-# Get age from birthdate.
+# Read in the pickled dictionary file.
 ################################################################################
-def calc_age(birthdate):
-    """ This function converts the birthdate to a datetime object and subtracts today's date. This calculates the age of an individual.
+def read_dict_file(filename):
+    """ This function finds the individuals within the age range and returns the dictionaries of those individuals. 
     
     Args:
-        **birthdate** (string): The birthday of the individual.
-            
-    Returns:
-        **age** (string): The age of the individual.
+        **filename** (str): The name of the file that will be pickled.
     
-    
+    Return:
+        **dict_file** (list): All individual dictionaries in the file passed in.
+   
+        
     """
     
-    birth_year,birth_month,birth_day = birthdate.split('-')
-    born = dt.datetime(int(birth_year),int(birth_month),int(birth_day))
-    today = datetime.now()
-    age= today.year-born.year - ((today.month,today.day) < (born.month, born.day))
+    # Open and pickle the file. 
+    infile = open(filename)
+    dict_file = pickle.load(infile)
+    
+    return dict_file
 
-    return age
+
+
+
 
 
 
@@ -53,20 +54,49 @@ def get_subset_with_age_range(filename,lo=0, hi=1e9, matching_key='Personal ID')
         **people** (list): The list of personal IDs that are within the range inputted. 
         
     """
+    fn = read_dict_file(filename)
     
     # Gets the personal IDs within the age range specified. 
     people=[]
-    for num,ind in enumerate(filename):
+    for num,ind in enumerate(fn):
         if ind['Age']>=lo and ind['Age']<=hi:
             people.append(ind['Personal ID'])
     people=np.unique(people)
     people.sort()
     print((len(people)))
     
-    ppl = get_subset_from_dictionary(people,filename)
+    ppl = get_subset_from_dictionary(people,fn)
     
     return ppl
 
 
 
+################################################################################
+# Gets information from the selected personal IDs passed through
+################################################################################
+def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID'):
+    """ This function gets the subset of dictionaries from the personal IDs that are passed in.
+    
+    Args:
+        **names** (list): The list of personal IDs for analysis.
+        
+        **full_dictionary** (): The file of dictionaries that has been made.
+        
+        **matching_key** (string): The value that determines the cross referencing between the files. 
+        Defaults to: 'Personal ID'
+    
+    Returns: 
+        **inds** (list): The dictionaries of the individuals with the personal IDs inputted. 
+        
+    """
+
+    inds = []
+
+    for name in names:
+        for client in full_dictionary:
+            if client[matching_key]==name:
+                inds.append(client)
+                break
+
+    return inds
 

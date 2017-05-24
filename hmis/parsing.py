@@ -6,6 +6,7 @@ import datetime as dt
 from datetime import timedelta, datetime
 import pickle
 import matplotlib.pyplot as plt
+from hmis.general import calc_age
 #from collections import OrderedDict
 #'''
 
@@ -259,35 +260,6 @@ def save_file(inds,filename):
 
 
 
-
-################################################################################
-# Gets information from the selected personal IDs passed through
-################################################################################
-def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID'):
-    """ This function gets the subset of dictionaries from the personal IDs that are passed in.
-    
-    Args:
-        **names** (list): The list of personal IDs for analysis.
-        
-        **full_dictionary** (): The file of dictionaries that has been made.
-        
-        **matching_key** (string): The value that determines the cross referencing between the files. 
-        Defaults to: 'Personal ID'
-    
-    Returns: 
-        **inds** (list): The dictionaries of the individuals with the personal IDs inputted. 
-        
-    """
-
-    inds = []
-
-    for name in names:
-        for client in full_dictionary:
-            if client[matching_key]==name:
-                inds.append(client)
-                break
-
-    return inds
 
 
 
