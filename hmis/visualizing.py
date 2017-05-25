@@ -4,6 +4,9 @@ import datetime as dt
 import numpy as np
 from general import *
 from collections import OrderedDict
+import plotly.graph_objs as go
+from plotly.offline import iplot
+from plotly.graph_objs import Scatter, Figure, Layout
 
 
     
@@ -18,9 +21,9 @@ def get_plotting_style(ptype):
         **ptype** (string): The project type.
     
     Returns: 
-        **color** (): The color of the program in RGB.
+        **color** (string): The color of the program in RGB.
         
-        **width** (float): The width of the line of the program.
+        **width** (int): The width of the line of the program.
         
         **alpha** (float): The opaque value of the program.
         
@@ -53,8 +56,8 @@ def get_plotting_style(ptype):
             width = pt['width']
             alpha = pt['alpha']
             style = pt['style']
-
-
+            
+            
     return color,width,alpha,style   
 
 
@@ -171,7 +174,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
                     plt.plot([0,1],[0,1])
                     
 
-                # Keep track of max and min time to rescale axes later
+                # Keep track of max and min time to rescale axes later.
                 if s<min_date:
                     min_date = s
                 if e>max_date:
@@ -185,15 +188,16 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         by_label = OrderedDict(list(zip(labels, handles)))
         plt.legend(list(by_label.values()), list(by_label.keys()), loc='upper left')
         plt.xlim(min_date-dt.timedelta(365),max_date)
-        plt.gcf().tight_layout()
-        plt.gcf().savefig(image_name,dpi=300)
+        #plt.gcf().tight_layout()
+        #plt.gcf().savefig(image_name,dpi=300)
         
 
     if exploded_view==False and plot_w_plotly==False:
         plt.ylim(-1,y+1)
+
     if plot_w_plotly ==True:
         iplot(program_list)
-        py.image.save_as(program_list, filename=image_name)
+        #iplot.image.save_as(program_list, filename=image_name)
         
         
         
