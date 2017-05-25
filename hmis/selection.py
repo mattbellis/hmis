@@ -1,45 +1,14 @@
 import numpy as np
-import pickle
-
-
-
-
-################################################################################
-# Read in the pickled dictionary file.
-################################################################################
-def read_dict_file(filename):
-    """ This function finds the individuals within the age range and returns the dictionaries of those individuals. 
-    
-    Args:
-        **filename** (str): The name of the file that will be read in with pickle.
-    
-    Return:
-        **dict_file** (list): All individual dictionaries in the file passed in.
-   
-        
-    """
-    
-    # Open and pickle the file. 
-    infile = open(filename)
-    dict_file = pickle.load(infile)
-    
-    return dict_file
-
-
-
-
-
-
 
 
 ################################################################################
 # Gets IDs within a certain age range.
 ################################################################################
-def get_subset_with_age_range(filename,lo=0, hi=1e9, matching_key='Personal ID'):
-    """ This function finds the individuals within the age range and returns the dictionaries of those individuals. 
+def get_subset_with_age_range(dict_list,lo=0, hi=1e9, matching_key='Personal ID'):
+    """ This function returns the dictionaries of the individuals within the age range. 
     
     Args:
-        **filename** (string): The name of the file that holds all of the dictionaries.
+        **dict_list** (list): Full list of the dictionaries.
         
         **lo** (int): The lower bound of the targeted age range.
             Defaults to: 0
@@ -51,51 +20,51 @@ def get_subset_with_age_range(filename,lo=0, hi=1e9, matching_key='Personal ID')
             Defaults to: 'Personal ID'
     
     Returns: 
-        **people** (list): The list of personal IDs that are within the range inputted. 
+        **dict_subset** (list): The list of dictionaries of the individuals that are within the age range. 
         
     """
-    fn = read_dict_file(filename)
     
     # Gets the personal IDs within the age range specified. 
-    people=[]
-    for num,ind in enumerate(fn):
+    personal_IDs=[]
+    for num,ind in enumerate(dict_list):
         if ind['Age']>=lo and ind['Age']<=hi:
-            people.append(ind['Personal ID'])
-    people=np.unique(people)
-    people.sort()
-    print((len(people)))
+            personal_IDs.append(ind['Personal ID'])
+    personal_IDs=np.unique(personal_IDs)
+    personal_IDs.sort()
+    print((len(personal_IDs)))
     
-    ppl = get_subset_from_dictionary(people,fn)
+    dict_subset = get_subset_from_dictionary(personal_IDs,dict_list)
     
-    return ppl
+    return dict_subset
+
 
 
 
 ################################################################################
 # Gets information from the selected personal IDs passed through
 ################################################################################
-def get_subset_from_dictionary(names,full_dictionary,matching_key='Personal ID'):
+def get_subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Personal ID'):
     """ This function gets the subset of dictionaries from the personal IDs that are passed in.
     
     Args:
-        **names** (array): The list of personal IDs for analysis.
+        **personal_IDs** (array): The list of personal IDs to get the dictionaries. 
         
         **full_dictionary** (list): The full list of dictionaries that has been made.
         
-        **matching_key** (string): The value that determines the cross referencing between the files. 
+        **matching_key** (string): The key that determines the cross referencing between the files. 
             Defaults to: 'Personal ID'
     
     Returns: 
-        **inds** (list): The dictionaries of the individuals with the personal IDs inputted. 
+        **inds** (list): The subset of dictionaries with the personal IDs inputted. 
         
     """
 
     inds = []
     
 
-    for name in names:
+    for pid in personal_IDs:
         for client in full_dictionary:
-            if client[matching_key]==name:
+            if client[matching_key]==pid:
                 inds.append(client)
                 break
 

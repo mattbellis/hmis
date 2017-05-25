@@ -6,6 +6,9 @@ from hmis.general import *
 from collections import OrderedDict
 import plotly.graph_objs as go
 from plotly.offline import iplot
+import plotly.plotly as py
+#import plotly.offline as offline
+#from IPython.display import Image
 from plotly.graph_objs import Scatter, Figure, Layout
 
 
@@ -15,7 +18,7 @@ from plotly.graph_objs import Scatter, Figure, Layout
 # Converts a string to a datetime object.
 ################################################################################
 def get_plotting_style(ptype):
-    """ This function gets the plotting styles depending on the type of program. 
+    """ This function gets the plotting styles depending on the program type. 
     
     Args:
         **ptype** (string): The project type.
@@ -31,9 +34,7 @@ def get_plotting_style(ptype):
         
     """
 
-
-    
-    
+    # The different programs and their plotting styles. 
     programs_new = [{'name':'Emergency Shelter',                'color':'rgba(152, 150, 0, .8)',      'width':2,'style':'-','alpha':1.0},
                 {'name':'Day Shelter',                      'color':'rgba(152, 0, 150, .8)',      'width':2,'style':'-','alpha':1.0},
                 {'name':'PH - Permanent Supportive Housing','color':'rgba(52, 0, 255, .8)','width':2,'style':'-','alpha':1.0},
@@ -49,6 +50,7 @@ def get_plotting_style(ptype):
                 {'name':'Coordinated Assesment',                  'color':'rgba(99, 109, 240, .8)','width':10,'style':'-','alpha':0.1}
                 ]
     
+    # Assigning the color, line width, opaqueness, and marker style.
     color,width,alpha,style = 0,0,0,0
     for pt in programs_new:
         if ptype == pt['name']:
@@ -66,14 +68,14 @@ def get_plotting_style(ptype):
 ################################################################################
 ################################################################################
 def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, plot_w_plotly=False):  
-    """ This function plots the time-series for each individual that is inputted.
+    """ This function plots a time-series plot of the programs for the list of individuals.
     
     Args:
         **inds** (list): The list of dictionaries that are going to be plotted.
         
-        **image_name** (string): The name of the figure that will be saved.
+        **image_name** (string): The name of the figure to be saved. 
         
-        **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on the y-axis with multiple programs on one line.
+        **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on a different point on the y-axis with multiple programs on one line.
         Defaulted to: False.
         
         **plot_w_plotly** (bool, optional): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
@@ -96,23 +98,27 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
     y = 0.0
     program_list=[]
     
+    # To avoid duplicated legend values in plotly.
+    prog_list_legend = []
+    
     # Get the information for each individual
     for i in inds:
 
-        projID = i['Personal ID']
+        personalID = i['Personal ID']
         proj_type=[]
         start_dates=[]
         end_dates=[]
-        lengths=[]
+        stay_lengths=[]
         
         for entry in i['Programs']:
             start_dates.append(entry['Admission date'])
             end_dates.append(entry['Discharge date'])
-            lengths.append(entry['Length of stay'])
+            stay_lengths.append(entry['Length of stay'])
             proj_type.append(entry['Project type'])
         
+        
         program_count = 0
-        for start,end,l,ptype in zip(start_dates,end_dates,lengths,proj_type):
+        for start,end,los,ptype in zip(start_dates,end_dates,stay_lengths,proj_type):
             
             # Handles nan
             if str(start)=='nan' or str(end)=='nan':
@@ -122,43 +128,47 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
                 # Convert dates to datetime format.
                 s = get_date_from_string(start)
                 e = get_date_from_string(end)
-
                 
                 # Get plotting styles depending on what the program is. 
                 color,width,alpha,style = get_plotting_style(ptype)
                 
                 # Starting point on the x-axis.
-                x_point = [s,e]
+                x_start = [s,e]
                 
                 # Determining if it is a one day entry or an extended stay.
-                l = np.timedelta64(1,'ns')
-                length= (l / np.timedelta64(1, 'D')).astype(int)
+                los = np.timedelta64(1,'ns')
+                length= (los / np.timedelta64(1, 'D')).astype(int)
                 
                 # Dependent on the length of stay, the marker plotted will change.
                 if length > 1:
                     m_type='o'
                 else:
                     m_type='*'
-
-                y_point = [y,y]
                 
                 # Exploded view with make every program be on a separate line. Defaulted to have each program for one individual to be on one line. 
                 if exploded_view==True:
-                    y_point=[s,s]
+                    y+=1
+                    #y_point=[s,s]
+                y_point = [y,y]
                 
                 # If plotly is True, then plotly is used to plot instead of matplotlib. 
                 if plot_w_plotly==True:
                     
                     showlegend_bool = True
-                    if program_count>0:
+                    if (program_count>0) or (ptype in prog_list_legend):
                         showlegend_bool = False
+                    else:
+                        prog_list_legend.append(ptype)
+                    
                     
                     prog = go.Scatter(
-                        x = x_point,
+                        x = x_start,
                         y= y_point,
-                        legendgroup = projID,
-                        name = projID,
-                        text = projID+"<br>"+ptype,
+                        legendgroup = ptype,
+                        #legendgroup = personalID,
+                        #name = personalID,
+                        name = ptype,
+                        text = personalID+"<br>"+ptype,
                         showlegend = showlegend_bool,
                         marker = dict(size = 10,color = color,line = dict(width = 2,))
                     )
@@ -170,7 +180,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
                     color = color[5:-1]
                     color = color.split(',')
                     color = '#%02x%02x%02x' % (int(color[0]),int(color[1]),int(color[2]))
-                    plt.plot(x_point,y_point,marker=m_type,linewidth=width,color=color,alpha=alpha,linestyle=style, label=ptype)
+                    plt.plot(x_start,y_point,marker=m_type,linewidth=width,color=color,alpha=alpha,linestyle=style, label=ptype)
                     plt.plot([0,1],[0,1])
                     
 
@@ -188,8 +198,8 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         by_label = OrderedDict(list(zip(labels, handles)))
         plt.legend(list(by_label.values()), list(by_label.keys()), loc='upper left')
         plt.xlim(min_date-dt.timedelta(365),max_date)
-        #plt.gcf().tight_layout()
-        #plt.gcf().savefig(image_name,dpi=300)
+        plt.gcf().tight_layout()
+        plt.gcf().savefig(image_name,dpi=300)
         
 
     if exploded_view==False and plot_w_plotly==False:
@@ -197,7 +207,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
 
     if plot_w_plotly ==True:
         iplot(program_list)
-        #iplot.image.save_as(program_list, filename=image_name)
+
         
         
         

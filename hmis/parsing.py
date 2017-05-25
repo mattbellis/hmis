@@ -69,7 +69,6 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
         **site_data** (Data Frame): All of the information from the site file.
     
     """
-    print(directory)
     # This takes care of things if the user passes in a tilde '~' which you want to expand to /home/USER/.
     directory = os.path.expanduser(directory)
 
@@ -111,7 +110,7 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
 
 
 ################################################################################
-# Make the large list of dictionaries
+# Make the large list of dictionaries.
 ################################################################################
 def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
     """ This function creates a list of all dictionaries in the enrollment file.
@@ -141,13 +140,13 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
     individuals = []
     
     # Get project IDs from the Project.csv file.
-    project_ID_from_file = project_data['ProjectID']
+    projectID_PR = project_data['ProjectID']
     project_type = project_data['ProjectType']
     
     # Get personal IDs from each file.
-    namesEN = enrollment_data['PersonalID']
-    namesEX = exit_data['PersonalID']
-    namesCL=client_data['PersonalID']
+    pidEN = enrollment_data['PersonalID']
+    pidEX = exit_data['PersonalID']
+    pidCL=client_data['PersonalID']
             
     # Get entry and exit dates from each file.
     entry_date=enrollment_data['EntryDate']
@@ -156,7 +155,7 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
     # Get project IDs for each file.
     project_entry_ID_EN=enrollment_data['ProjectEntryID']
     project_entry_ID_EX = exit_data['ProjectEntryID']
-    projectID=enrollment_data['ProjectID']
+    projectID_EN=enrollment_data['ProjectID']
     
     # Get info from client file.
     client_dob= client_data['DOB']
@@ -179,12 +178,12 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
             print(icount)
         
 
-        unames = np.unique(namesEN) 
+        unames = np.unique(pidEN) 
 
         # Get all Enrollment, Exit and Client indices from each respective file.
-        enroll_idx = namesEN==pid 
-        exit_idx   = namesEX==pid 
-        client_idx = namesCL==pid
+        enroll_idx = pidEN==pid 
+        exit_idx   = pidEX==pid 
+        client_idx = pidCL==pid
 
         # Gets the entry dates, exit dates, and DOB for all of the indicies.
         indate = entry_date[enroll_idx] 
@@ -194,12 +193,8 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
         # Calculates the age of the individual.
         dob=calc_age(str(dob_date.values[0]))
         
-        # Get the actual project entry IDs and project exit IDs to match up with the 
-        #inpeid = project_entry_ID_EN[enroll_idx] 
-        #outpeid = project_entry_ID_EX[exit_idx] 
-        
         # Get the Project IDs 
-        peid = projectID[enroll_idx]  
+        peid = projectID_EN[enroll_idx]  
         
         program_list=[]
         
@@ -207,8 +202,8 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
         for num,(idate,odate,projid) in enumerate(zip(indate,outdate,peid)):
             
             # Get the project type
-            num_for_project= project_ID_from_file[project_ID_from_file==projid].index[0]
-            this_proj_type= project_index[int(project_type[num_for_project])-1]
+            project_num= projectID_PR[projectID_PR==projid].index[0]
+            this_proj_type= project_index[int(project_type[project_num])-1]
             
             # Get the Zip code for the project
             #num_for_zip=projectID_site[projid==projectID_site].index[0]
@@ -249,10 +244,10 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
 # Saves the dictionary file by pickling the file.
 ################################################################################
 def save_file(inds,filename):
-    """ This function creates a file of all the dictionaries that are passed into this function.
+    """ This function creates a file of the dictionaries that passed in.
     
     Args:
-        **inds** (list): All of the dictionaries from the people in the enrollment file.
+        **inds** (list): The list of dictionaries.
         
         **filename** (string): The name of the file that the dictionaries will be saved as. This should be a .pkl file. 
     
@@ -264,7 +259,25 @@ def save_file(inds,filename):
 
 
 
-
+################################################################################
+# Read in the pickled dictionary file.
+################################################################################
+def read_dict_file(filename):
+    """ This function returns the list of dictionaries that are in the inputted file.
+    
+    Args:
+        **filename** (str): The file to be read in using pickle.
+    
+    Return:
+        **dict_file** (list): List of the dictionaries in the file passed in.
+        
+    """
+    
+    # Open and pickle the file. 
+    infile = open(filename, 'rb')
+    dict_list = pickle.load(infile)
+    
+    return dict_list
 
 
 

@@ -7,13 +7,13 @@ import pandas as pd
 # Get age from birthdate.
 ################################################################################
 def calc_age(birthdate):
-    """ This function converts the birthdate to a datetime object and subtracts today's date. This calculates the age of an individual.
+    """ This function calculates the age of an individual using their birthdate.
     
     Args:
         **birthdate** (string): The birthday of the individual.
             
     Returns:
-        **age** (string): The age of the individual.
+        **age** (int): The age of the individual.
     
     
     """
