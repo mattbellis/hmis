@@ -11,32 +11,33 @@ from hmis.general import calc_age
 #'''
 
 
-# There are two ways to get the individuals to visualize and analyze. 
-# The first method is to read in all of the data and create a dictionary file. This file holds every individual but can easily and quickly be read in once made.
-
-# The second method is to create the dictionary of the individuals at analysis-time. 
-
-
 ################################################################################
-# The following functions are to read in all of the data and create a master 
-# dictionary file with all individuals.
+# The following functions are used to read in data from the standard HMIS data
+# export and then create a master dictionary file containing the individuals
+# and information about them and the care they have received. 
+#
+# By converting the data to a dictionary, the subsequent data exploration is
+# *much* faster, even though the initial creation of the dictionary can take
+# some time. 
 ################################################################################
 
 
 ################################################################################
 # Get all of the personal IDs
 ################################################################################
-def get_pids(enrollment_file):
-    """ This function gets all of the personal ID in the enrollment file.
+def get_pids(enrollment_data):
+    """ This function returns the personal IDs of the individuals from the enrollment file.
     
     Args: 
-        **enrollment_file** (Data Frame): the enrollment file that has been read in with pandas.
+        **enrollment_data** (pandas Data Frame): Data from the enrollment file that has been already read in.
+        The file should have been read in with Pandas so we are passing it in as a pandas.DataFrame.
         
     Returns:
-        **personalids** (array): All Personal IDs from the individuals in the enrollment file.
+        **personalids** (numpy array): All Personal IDs from the individuals in the enrollment file.
+        The Personal ID is used to identify individuals.
     
     """
-    namesEN = enrollment_file['PersonalID']
+    namesEN = enrollment_data['PersonalID']
   
     return np.array(namesEN)
 
@@ -44,37 +45,36 @@ def get_pids(enrollment_file):
 ################################################################################
 # Read in the file names only when we call this function.
 ################################################################################
-def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
+def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv'],verbose=False):
     """ This function reads all of the HMIS files inputted using pandas.
     
     Args: 
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
             Defaults to '~/hmis_data/'. 
-        **filesname** (string, optional): The name of the files to get information from. 
-            Defaults to None. 
-        **verbose** (bool, optional): This prints the file that is being read in, which helps with troubleshooting.
+        **filenames** (list, optional): A list of the filenames from which we will be reading the data.
+            These files come from the standard HMIS data dump. 
+            Defaults to  ['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv']. 
+        **verbose** (bool, optional): If this is True, additional information is printed to the screen. 
             Defaults to False.
         
     Returns:
-        **enrollment_file** (Data Frame): All of the information from the enrollment file.
+        **enrollment_data** (Data Frame): All of the information from the enrollment file.
         
-        **exit_file** (Data Frame): All of the information from the exit file.
+        **exit_data** (Data Frame): All of the information from the exit file.
         
-        **project_file** (Data Frame): All of the information from the project file.
+        **project_data** (Data Frame): All of the information from the project file.
         
-        **client_file** (Data Frame): All of the information from the client file.
+        **client_data** (Data Frame): All of the information from the client file.
         
-        **site_file** (Data Frame): All of the information from the site file.
+        **site_data** (Data Frame): All of the information from the site file.
     
     """
     print(directory)
     # This takes care of things if the user passes in a tilde '~' which you want to expand to /home/USER/.
     directory = os.path.expanduser(directory)
 
-    if filenames==None:
-        filenames = ['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv']
 
-    enrollment_file,exit_file,project_file,client_file,site_file = None,None,None,None,None
+    enrollment_data,exit_data,project_data,client_data,site_data = None,None,None,None,None
 
     for i,filename in enumerate(filenames):
 
@@ -93,17 +93,17 @@ def read_in_data(directory='~/hmis_data/',filenames=None,verbose=False):
 
         # Actually reads the files.
         if i==0:
-            enrollment_file = pd.read_csv(fullpath,delimiter=',',dtype=str)
+            enrollment_data = pd.read_csv(fullpath,delimiter=',',dtype=str)
         elif i==1:
-            exit_file = pd.read_csv(fullpath,delimiter=',',dtype=str)
+            exit_data = pd.read_csv(fullpath,delimiter=',',dtype=str)
         elif i==2:
-            project_file = pd.read_csv(fullpath,delimiter=',',dtype=str)
+            project_data = pd.read_csv(fullpath,delimiter=',',dtype=str)
         elif i==3:
-            client_file = pd.read_csv(fullpath,delimiter=',',dtype=str)
+            client_data = pd.read_csv(fullpath,delimiter=',',dtype=str)
         elif i==4:
-            site_file=pd.read_csv(fullpath,delimiter=',',dtype=str)
+            site_data=pd.read_csv(fullpath,delimiter=',',dtype=str)
 
-    return enrollment_file,exit_file,project_file,client_file, site_file
+    return enrollment_data,exit_data,project_data,client_data, site_data
 
 
 
@@ -128,10 +128,10 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
     """
     print(directory)
     # Read in all of the given HMIS files.
-    enrollment_file,exit_file,project_file,client_file,site_file = read_in_data(directory=directory,filenames=filenames,verbose=True)
+    enrollment_data,exit_data,project_data,client_data,site_data = read_in_data(directory=directory,filenames=filenames,verbose=True)
     
     # Get all of the personal IDs from the enrollment file.
-    personalids = get_pids(enrollment_file)
+    personalids = get_pids(enrollment_data)
     
 
     # If the personal ID is not a list make it a list of one variable
@@ -141,30 +141,30 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
     individuals = []
     
     # Get project IDs from the Project.csv file.
-    project_ID_from_file = project_file['ProjectID']
-    project_type = project_file['ProjectType']
+    project_ID_from_file = project_data['ProjectID']
+    project_type = project_data['ProjectType']
     
     # Get personal IDs from each file.
-    namesEN = enrollment_file['PersonalID']
-    namesEX = exit_file['PersonalID']
-    namesCL=client_file['PersonalID']
+    namesEN = enrollment_data['PersonalID']
+    namesEX = exit_data['PersonalID']
+    namesCL=client_data['PersonalID']
             
     # Get entry and exit dates from each file.
-    entry_date=enrollment_file['EntryDate']
-    exit_date=exit_file['ExitDate']
+    entry_date=enrollment_data['EntryDate']
+    exit_date=exit_data['ExitDate']
 
     # Get project IDs for each file.
-    project_entry_ID_EN=enrollment_file['ProjectEntryID']
-    project_entry_ID_EX = exit_file['ProjectEntryID']
-    projectID=enrollment_file['ProjectID']
+    project_entry_ID_EN=enrollment_data['ProjectEntryID']
+    project_entry_ID_EX = exit_data['ProjectEntryID']
+    projectID=enrollment_data['ProjectID']
     
     # Get info from client file.
-    client_dob= client_file['DOB']
+    client_dob= client_data['DOB']
     
     
     # Get site zip codes.
-    zip_codes=site_file['ZIP']
-    projectID_site=site_file['ProjectID']
+    zip_codes=site_data['ZIP']
+    projectID_site=site_data['ProjectID']
     
     
     

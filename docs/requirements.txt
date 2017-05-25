@@ -2,3 +2,4 @@ pandas
 numpy
 datetime
 matplotlib
+sphinx_rtd_theme

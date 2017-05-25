@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import datetime as dt
 import numpy as np
-from general import *
+from hmis.general import *
 from collections import OrderedDict
 import plotly.graph_objs as go
 from plotly.offline import iplot
