@@ -6,9 +6,11 @@
 Welcome to hmis's documentation!
 ================================
 
+Contents:
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   
    quickstart
 
 
