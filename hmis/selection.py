@@ -5,11 +5,14 @@ import numpy as np
 # Gets IDs within a certain age range.
 ################################################################################
 def get_subset_with_age_range(dict_list,lo=0, hi=1e9, matching_key='Personal ID'):
-    """ This function returns the dictionaries of the individuals within the age range. 
+    """ 
+    This function returns the dictionaries of the individuals within the age range. 
+    
+    :param list dict_list: Full list of the dictionaries
     
     Args:
         **dict_list** (list): Full list of the dictionaries.
-        
+
         **lo** (int): The lower bound of the targeted age range.
             Defaults to: 0
         
