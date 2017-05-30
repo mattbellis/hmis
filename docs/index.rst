@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to hmis_'s documentation!
-================================
+=================================
 
 Contents:
 
