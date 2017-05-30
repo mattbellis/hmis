@@ -127,7 +127,7 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
     """
     print(directory)
     # Read in all of the given HMIS files.
-    enrollment_data,exit_data,project_data,client_data,site_data = read_in_data(directory=directory,filenames=filenames,verbose=True)
+    enrollment_data,exit_data,project_data,client_data,site_data = read_in_data(directory=directory,verbose=True)
     
     # Get all of the personal IDs from the enrollment file.
     personalids = get_pids(enrollment_data)
