@@ -22,6 +22,7 @@ Import necessary packages
 -------------------------
 
 .. doctest::
+
     >>> from hmis import selection
     >>> from hmis import general
     >>> from hmis import visualizing 
@@ -32,8 +33,8 @@ Import necessary packages
 If you are using a Jupyter notebook make sure to include the following in order to plot within the kernel:
 
 .. doctest:: 
-    >>> plotly.offline.init_notebook_mode()
 
+    >>> plotly.offline.init_notebook_mode()
     >>> %matplotlib notebook
 
 
@@ -43,6 +44,7 @@ Read the dictionary file
 To read in the entire primary dictionary file:
 
 .. doctest::
+
     >>> filename = 'example.pkl'
     >>> dict_list = parsing.read_dict_file(filename)
 
