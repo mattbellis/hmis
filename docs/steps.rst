@@ -52,15 +52,24 @@ To read in the entire primary dictionary file:
 Select individuals to visualize
 -------------------------------
 
-From this list of dictionaries ``dict_list``, you can define an age range to select the individuals to visualize. 
+From this list of dictionaries ``dict_list``, you can define an age range to select the individuals to visualize:
 
+.. doctest:: 
 
+    >>> lo = 31
+    >>> hi = 33
+    >>> selected_people = selection.get_subset_with_age_range(dict_list,lo=lo,hi=hi)
 
 
 Visualize time-series plots
 ---------------------------
 
+From the ``selected_people``, you can plot their time-series plots:
 
+.. doctest:: 
+
+    >>> image_name = 'example.png'
+    >>> visualizing.plot_time_series_from_dict_list_new(ppl, image_name, plot_w_plotly=True)
 
 
 
