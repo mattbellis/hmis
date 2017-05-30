@@ -73,3 +73,46 @@ def get_subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Person
 
     return inds
 
+
+
+
+def get_subset_with_program_num(dict_list, num_of_programs, matching_key='Personal ID'):
+    """ 
+    This function returns the dictionaries of the individuals that have at least the number of programs entered. 
+    
+    :param list dict_list: Full list of the dictionaries
+    
+    Args:
+        **dict_list** (list): Full list of the dictionaries.
+        
+        **num_of_programs** (int): The lower number to how many programs an individual must have to be returned.
+        
+        **matching_key** (string): The value that determines the cross referencing between the files. 
+            Defaults to: 'Personal ID'
+    
+    Returns: 
+        **dict_subset** (list): The list of dictionaries of the individuals that have at least the number of programs inputted.
+        
+    """
+
+    
+    personal_IDs = []
+    for num,ind in enumerate(dict_list):
+        prog_list = ind['Programs']
+        if len(prog_list) > (num_of_programs -1):
+            personal_IDs.append(ind['Personal ID'])
+                                
+    personal_IDs=np.unique(personal_IDs)
+    personal_IDs.sort()
+    print((len(personal_IDs)))
+    
+    dict_subset = get_subset_from_dictionary(personal_IDs,dict_list)
+    
+    return dict_subset
+    
+    
+    
+    
+    
+    
+    
