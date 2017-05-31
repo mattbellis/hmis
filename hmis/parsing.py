@@ -50,10 +50,12 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
     
     Args: 
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
-            Defaults to '~/hmis_data/'. 
+            Defaults to '~/hmis_data/'.
+            
         **filenames** (list, optional): A list of the filenames from which we will be reading the data.
             These files come from the standard HMIS data dump. 
             Defaults to  ['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv']. 
+            
         **verbose** (bool, optional): If this is True, additional information is printed to the screen. 
             Defaults to False.
         
@@ -112,13 +114,14 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
 ################################################################################
 # Make the large list of dictionaries.
 ################################################################################
-def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
+def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     """ This function creates a list of all dictionaries in the enrollment file.
     
     Args:
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
             Defaults to '~/hmis_data/'. 
-        **filesname** (string, optional): The name of the files to get information from.  
+            
+        **filenames** (string, optional): The name of the files to get information from.  
             Defaults to None. 
             
     Returns:
@@ -177,7 +180,6 @@ def get_all_info_for_individuals(directory='~/hmis_data/',filenames=None):
         if icount%1000==0:
             print(icount)
         
-
         unames = np.unique(pidEN) 
 
         # Get all Enrollment, Exit and Client indices from each respective file.
@@ -262,22 +264,22 @@ def save_file(inds,filename):
 ################################################################################
 # Read in the pickled dictionary file.
 ################################################################################
-def read_dict_file(filename):
+def read_dictionary_file(filename):
     """ This function returns the list of dictionaries that are in the inputted file.
     
     Args:
         **filename** (str): The file to be read in using pickle.
     
     Return:
-        **dict_file** (list): List of the dictionaries in the file passed in.
+        **dictionary_list** (list): List of the dictionaries in the file passed in.
         
     """
     
     # Open and pickle the file. 
     infile = open(filename, 'rb')
-    dict_list = pickle.load(infile)
+    dictionary_list = pickle.load(infile)
     
-    return dict_list
+    return dictionary_list
 
 
 

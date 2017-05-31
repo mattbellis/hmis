@@ -15,7 +15,7 @@ from plotly.graph_objs import Scatter, Figure, Layout
     
 
 ################################################################################
-# Converts a string to a datetime object.
+# Gets the plotting style based on what program the individual has been in.
 ################################################################################
 def get_plotting_style(ptype):
     """ This function gets the plotting styles depending on the program type. 
@@ -52,6 +52,7 @@ def get_plotting_style(ptype):
     
     # Assigning the color, line width, opaqueness, and marker style.
     color,width,alpha,style = 0,0,0,0
+    
     for pt in programs_new:
         if ptype == pt['name']:
             color = pt['color']
@@ -67,7 +68,7 @@ def get_plotting_style(ptype):
 
 ################################################################################
 ################################################################################
-def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, plot_w_plotly=False):  
+def plot_time_series(inds, image_name, exploded_view=False, plotly=False):  
     """ This function plots a time-series plot of the programs for the list of individuals.
     
     Args:
@@ -76,10 +77,10 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         **image_name** (string): The name of the figure to be saved. 
         
         **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on a different point on the y-axis with multiple programs on one line.
-        Defaulted to: False.
+            Defaulted to: False.
         
-        **plot_w_plotly** (bool, optional): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
-        Defaulted to: False.
+        **plotly** (bool, optional): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
+            Defaulted to: False.
 
     """
     
@@ -89,7 +90,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
 
     totlens=[]
     color_index=0
-    if plot_w_plotly==False:
+    if plotly==False:
         plt.figure(figsize=(12,5))
     min_date = dt.datetime(2100,1,1)
     max_date = dt.datetime(1800,1,1)
@@ -152,7 +153,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
                 y_point = [y,y]
                 
                 # If plotly is True, then plotly is used to plot instead of matplotlib. 
-                if plot_w_plotly==True:
+                if plotly==True:
                     
                     showlegend_bool = True
                     if (program_count>0) or (ptype in prog_list_legend):
@@ -193,7 +194,7 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         
         y += 1
         
-    if plot_w_plotly==False:
+    if plotly==False:
         handles, labels = plt.gca().get_legend_handles_labels()
         by_label = OrderedDict(list(zip(labels, handles)))
         plt.legend(list(by_label.values()), list(by_label.keys()), loc='upper left')
@@ -202,10 +203,10 @@ def plot_time_series_from_dict_list_new(inds, image_name, exploded_view=False, p
         plt.gcf().savefig(image_name,dpi=300)
         
 
-    if exploded_view==False and plot_w_plotly==False:
+    if exploded_view==False and plotly==False:
         plt.ylim(-1,y+1)
 
-    if plot_w_plotly ==True:
+    if plotly ==True:
         iplot(program_list)
 
         

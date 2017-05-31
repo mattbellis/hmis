@@ -4,14 +4,12 @@ import numpy as np
 ################################################################################
 # Gets IDs within a certain age range.
 ################################################################################
-def get_subset_with_age_range(dict_list,lo=0, hi=1e9, matching_key='Personal ID'):
+def subset_with_age(dictionary_list,lo=0, hi=1e9, matching_key='Personal ID'):
     """ 
     This function returns the dictionaries of the individuals within the age range. 
     
-    :param list dict_list: Full list of the dictionaries
-    
     Args:
-        **dict_list** (list): Full list of the dictionaries.
+        **dictionary_list** (list): Full list of the dictionaries.
 
         **lo** (int): The lower bound of the targeted age range.
             Defaults to: 0
@@ -23,22 +21,22 @@ def get_subset_with_age_range(dict_list,lo=0, hi=1e9, matching_key='Personal ID'
             Defaults to: 'Personal ID'
     
     Returns: 
-        **dict_subset** (list): The list of dictionaries of the individuals that are within the age range. 
+        **dictionary_subset** (list): The list of dictionaries of the individuals that are within the age range. 
         
     """
     
     # Gets the personal IDs within the age range specified. 
     personal_IDs=[]
-    for num,ind in enumerate(dict_list):
+    for num,ind in enumerate(dictionary_list):
         if ind['Age']>=lo and ind['Age']<=hi:
             personal_IDs.append(ind['Personal ID'])
     personal_IDs=np.unique(personal_IDs)
     personal_IDs.sort()
     print((len(personal_IDs)))
     
-    dict_subset = get_subset_from_dictionary(personal_IDs,dict_list)
+    dictionary_subset = subset_from_dictionary(personal_IDs,dictionary_list)
     
-    return dict_subset
+    return dictionary_subset
 
 
 
@@ -46,7 +44,7 @@ def get_subset_with_age_range(dict_list,lo=0, hi=1e9, matching_key='Personal ID'
 ################################################################################
 # Gets information from the selected personal IDs passed through
 ################################################################################
-def get_subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Personal ID'):
+def subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Personal ID'):
     """ This function gets the subset of dictionaries from the personal IDs that are passed in.
     
     Args:
@@ -76,14 +74,14 @@ def get_subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Person
 
 
 
-def get_subset_with_program_num(dict_list, num_of_programs, matching_key='Personal ID'):
+def subset_with_program_num(dictionary_list, num_of_programs, matching_key='Personal ID'):
     """ 
     This function returns the dictionaries of the individuals that have at least the number of programs entered. 
     
-    :param list dict_list: Full list of the dictionaries
+    :param list dictionary_list: Full list of the dictionaries
     
     Args:
-        **dict_list** (list): Full list of the dictionaries.
+        **dictionary_list** (list): Full list of the dictionaries.
         
         **num_of_programs** (int): The lower number to how many programs an individual must have to be returned.
         
@@ -91,13 +89,13 @@ def get_subset_with_program_num(dict_list, num_of_programs, matching_key='Person
             Defaults to: 'Personal ID'
     
     Returns: 
-        **dict_subset** (list): The list of dictionaries of the individuals that have at least the number of programs inputted.
+        **dictionary_subset** (list): The list of dictionaries of the individuals that have at least the number of programs inputted.
         
     """
 
     
     personal_IDs = []
-    for num,ind in enumerate(dict_list):
+    for num,ind in enumerate(dictionary_list):
         prog_list = ind['Programs']
         if len(prog_list) > (num_of_programs -1):
             personal_IDs.append(ind['Personal ID'])
@@ -106,9 +104,9 @@ def get_subset_with_program_num(dict_list, num_of_programs, matching_key='Person
     personal_IDs.sort()
     print((len(personal_IDs)))
     
-    dict_subset = get_subset_from_dictionary(personal_IDs,dict_list)
+    dictionary_subset = subset_from_dictionary(personal_IDs,dictionary_list)
     
-    return dict_subset
+    return dictionary_subset
     
     
     
