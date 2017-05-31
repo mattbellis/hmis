@@ -4,7 +4,7 @@ import sys
 requirements = ['numpy','pandas','pickle','datetime']
 
 # WE MIGHT WANT TO CHANGE SOME OF THIS
-if sys.version_info < (3, 3):
+if sys.version_info < (2, 7):
     sys.stdout.write("At least Python 3.3 is required.\n")
     sys.exit(1)
 '''

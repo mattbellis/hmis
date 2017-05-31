@@ -4,7 +4,7 @@ import numpy as np
 ################################################################################
 # Gets IDs within a certain age range.
 ################################################################################
-def subset_with_age(dictionary_list,lo=0, hi=1e9, matching_key='Personal ID'):
+def select_by_age(dictionary_list,lo=0, hi=1e9):
     """ 
     This function returns the dictionaries of the individuals within the age range. 
     
@@ -17,9 +17,6 @@ def subset_with_age(dictionary_list,lo=0, hi=1e9, matching_key='Personal ID'):
         **hi** (int): The upper bound of the targeted age range.
             Defaults to: 1e9
         
-        **matching_key** (string): The value that determines the cross referencing between the files. 
-            Defaults to: 'Personal ID'
-    
     Returns: 
         **dictionary_subset** (list): The list of dictionaries of the individuals that are within the age range. 
         
@@ -32,7 +29,7 @@ def subset_with_age(dictionary_list,lo=0, hi=1e9, matching_key='Personal ID'):
             personal_IDs.append(ind['Personal ID'])
     personal_IDs=np.unique(personal_IDs)
     personal_IDs.sort()
-    print((len(personal_IDs)))
+    print("%d people have been selected." % (len(personal_IDs)))
     
     dictionary_subset = subset_from_dictionary(personal_IDs,dictionary_list)
     
@@ -62,7 +59,6 @@ def subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Personal I
 
     inds = []
     
-
     for pid in personal_IDs:
         for client in full_dictionary:
             if client[matching_key]==pid:
@@ -74,7 +70,8 @@ def subset_from_dictionary(personal_IDs,full_dictionary,matching_key='Personal I
 
 
 
-def subset_with_program_num(dictionary_list, num_of_programs, matching_key='Personal ID'):
+# ASK CARES FOLKS IF THIS SHOULD BE NAMED BY PROGRAMS OR PROJECTS
+def select_by_number_of_programs(dictionary_list, num_of_programs):
     """ 
     This function returns the dictionaries of the individuals that have at least the number of programs entered. 
     
@@ -85,14 +82,10 @@ def subset_with_program_num(dictionary_list, num_of_programs, matching_key='Pers
         
         **num_of_programs** (int): The lower number to how many programs an individual must have to be returned.
         
-        **matching_key** (string): The value that determines the cross referencing between the files. 
-            Defaults to: 'Personal ID'
-    
     Returns: 
         **dictionary_subset** (list): The list of dictionaries of the individuals that have at least the number of programs inputted.
         
     """
-
     
     personal_IDs = []
     for num,ind in enumerate(dictionary_list):

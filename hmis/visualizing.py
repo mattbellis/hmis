@@ -68,7 +68,7 @@ def get_plotting_style(ptype):
 
 ################################################################################
 ################################################################################
-def plot_time_series(inds, image_name, exploded_view=False, plotly=False):  
+def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):  
     """ This function plots a time-series plot of the programs for the list of individuals.
     
     Args:
@@ -90,7 +90,7 @@ def plot_time_series(inds, image_name, exploded_view=False, plotly=False):
 
     totlens=[]
     color_index=0
-    if plotly==False:
+    if plotly==False and plt.gcf()==None:
         plt.figure(figsize=(12,5))
     min_date = dt.datetime(2100,1,1)
     max_date = dt.datetime(1800,1,1)
@@ -200,7 +200,8 @@ def plot_time_series(inds, image_name, exploded_view=False, plotly=False):
         plt.legend(list(by_label.values()), list(by_label.keys()), loc='upper left')
         plt.xlim(min_date-dt.timedelta(365),max_date)
         plt.gcf().tight_layout()
-        plt.gcf().savefig(image_name,dpi=300)
+        if image_name is not None:
+            plt.gcf().savefig(image_name,dpi=300)
         
 
     if exploded_view==False and plotly==False:
