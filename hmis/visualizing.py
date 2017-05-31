@@ -212,7 +212,27 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
 
         
         
+######################################################################################
+#Function to plot zip codes
+######################################################################################
         
+#def plot_program_locations(selected_people):
+    
+    
+    
+    
+    
+
+def convert_to_coordinates(zip_code):
+    geolocator = Nominatim()
+    coordinate_dict={}
+    if ((zip_code)!= 'nan'):
+        zc=str(int(zip_code))
+
+        zipState=zc + ", New York"
+        location = geolocator.geocode(zipState, timeout=10)
+        if (location !=None):
+            return location.latitude, location.longitude        
         
         
         
