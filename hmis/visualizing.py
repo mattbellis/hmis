@@ -218,18 +218,39 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
 #Function to plot zip codes
 ######################################################################################
         
-def plot_program_locations(master_dictionary):
+def plot_program_locations(dictionaries):
+    """ This function plots all of the program's zip codes with the folium package.
+    
+    Args:
+        **master_dictionary** (list): The list of dictionaries that are going to be plotted.
+        
+        
+    Return:    
+        **map1** (??): The map to be plotted with a Jupyter notebook. 
+
+    """
+    
+    # Create a list of the zip codes and program names for each program.
     zip_codes =[]
     prog_name = []
-    for ind in master_dictionary:
-        #print(ind)
+    
+    # Loop through the list of dictionaries inputted.
+    for ind in dictionaries:
         prog_list = ind['Programs']
+        
+        # Loop through the programs and append the zip codes and program name.
         for prog in prog_list:
-            temp_zip = prog['Project Zip Code']
+            zip_codes.append(prog['Project Zip Code'])
             prog_name.append(prog['Project type'])
+            
+    # Convert the zip codes to latitude and longitude coordinates
+    print(zip_codes[0])
     start_lat, start_lon = convert_to_coordinates(zip_codes[0])
+    
+    # Map the first coordinate
     map1 = folium.Map(location=[start_lat,start_lon], zoom_start = 7)
-    coordinates =[]
+    
+    # Map the coordinates with the corresponding program name
     for zipc,pname in zip(zip_codes, prog_name):
         lat, lon = convert_to_coordinates(zipc)
         folium.Marker([lat,lon], popup=pname).add_to(map1)
@@ -242,9 +263,19 @@ def plot_program_locations(master_dictionary):
     
 
 def convert_to_coordinates(zip_code):
+    """ Converts the list of zip codes to latitude and ongitude coordinates. 
+    
+    Args:
+        **zip_code** (list): The zip co
+        
+        
+    Return:    
+        **map1** (??): The map to be plotted with a Jupyter notebook. 
+
+    """
     geolocator = Nominatim()
     coordinate_dict={}
-    if ((zip_code)!= 'nan'):
+    if ((zip_code)!= 'NaN'):
         zc=str(int(zip_code))
 
         zipState=zc + ", New York"
