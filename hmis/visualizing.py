@@ -226,7 +226,6 @@ def plot_program_locations(master_dictionary):
         prog_list = ind['Programs']
         for prog in prog_list:
             temp_zip = prog['Project Zip Code']
-            zip_codes.append(temp_zip[)
             prog_name.append(prog['Project type'])
     start_lat, start_lon = convert_to_coordinates(zip_codes[0])
     map1 = folium.Map(location=[start_lat,start_lon], zoom_start = 7)

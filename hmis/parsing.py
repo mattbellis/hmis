@@ -207,9 +207,9 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
             this_proj_type= project_index[int(project_type[project_num])-1]
             
             # Get the Zip code for the project
-            
-            num_for_zip=zip_codes[projid==projectID_site].index[0]
-            
+            if (len(zip_codes[projid==projectID_site])>0):
+                num_for_zip=zip_codes[projid==projectID_site].index[0]
+
             this_zip=zip_codes[num_for_zip]
 
             # Get the entry and exit dates.
