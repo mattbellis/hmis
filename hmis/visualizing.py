@@ -10,6 +10,8 @@ import plotly.plotly as py
 #import plotly.offline as offline
 #from IPython.display import Image
 from plotly.graph_objs import Scatter, Figure, Layout
+import folium
+from geopy.geocoders import Nominatim
 
 
     
@@ -216,7 +218,24 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
 #Function to plot zip codes
 ######################################################################################
         
-#def plot_program_locations(selected_people):
+def plot_program_locations(master_dictionary):
+    zip_codes =[]
+    prog_name = []
+    for ind in master_dictionary:
+        #print(ind)
+        prog_list = ind['Programs']
+        for prog in prog_list:
+            temp_zip = prog['Project Zip Code']
+            zip_codes.append(temp_zip[)
+            prog_name.append(prog['Project type'])
+    start_lat, start_lon = convert_to_coordinates(zip_codes[0])
+    map1 = folium.Map(location=[start_lat,start_lon], zoom_start = 7)
+    coordinates =[]
+    for zipc,pname in zip(zip_codes, prog_name):
+        lat, lon = convert_to_coordinates(zipc)
+        folium.Marker([lat,lon], popup=pname).add_to(map1)
+    
+    return map1
     
     
     

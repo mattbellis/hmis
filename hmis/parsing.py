@@ -166,8 +166,7 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     
     # Get site zip codes.
     zip_codes=site_data['ZIP']
-    projectID_site=site_data['ProjectID']
-    
+    projectID_site=site_data['ProjectID']  
     
     
     # List of all of the projects in the CoC.
@@ -201,16 +200,18 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
         program_list=[]
         
         # Loop through the entry date, exit date and project ID for each project that an individual has.
-        for num,(idate,odate,projid) in enumerate(zip(indate,outdate,peid)):
+        for num,(idate, odate, projid) in enumerate(zip(indate, outdate, peid)):
             
             # Get the project type
             project_num= projectID_PR[projectID_PR==projid].index[0]
             this_proj_type= project_index[int(project_type[project_num])-1]
             
             # Get the Zip code for the project
-            #num_for_zip=projectID_site[projid==projectID_site].index[0]
-            #this_zip=zip_codes[num_for_zip]
             
+            num_for_zip=zip_codes[projid==projectID_site].index[0]
+            
+            this_zip=zip_codes[num_for_zip]
+
             # Get the entry and exit dates.
             thisindate = indate[indate.index[num]]
             thisoutdate = outdate[outdate.index[num]]
@@ -231,8 +232,8 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
             los=(end-start)
 
             
-            program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type})
-            #program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
+            #program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type})
+            program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
             
         individuals.append({'Personal ID':pid, 'Age': dob,'Programs':program_list})
 

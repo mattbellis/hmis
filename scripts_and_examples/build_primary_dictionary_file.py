@@ -12,6 +12,6 @@ inds = hmis.create_dictionary_list(directory=hmis_data_location)
 
 # Write this dictionary to a pickled file.
 print("Writing pickle file...")
-hmis.save_file(inds, 'save_dicts_May30.pkl')
+hmis.save_file(inds, 'save_dicts_June1.pkl')
 
 print("Done!")
