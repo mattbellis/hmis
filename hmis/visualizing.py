@@ -12,7 +12,7 @@ import plotly.plotly as py
 from plotly.graph_objs import Scatter, Figure, Layout
 import folium
 from geopy.geocoders import Nominatim
-
+import math
 
     
 
@@ -222,11 +222,11 @@ def plot_program_locations(dictionaries):
     """ This function plots all of the program's zip codes with the folium package.
     
     Args:
-        **master_dictionary** (list): The list of dictionaries that are going to be plotted.
+        **dictionaries** (list): The list of dictionaries that are going to be plotted.
         
         
     Return:    
-        **map1** (??): The map to be plotted with a Jupyter notebook. 
+        **map1** (Map): The map to be displayed in a Jupyter notebook.
 
     """
     
@@ -252,8 +252,9 @@ def plot_program_locations(dictionaries):
     
     # Map the coordinates with the corresponding program name
     for zipc,pname in zip(zip_codes, prog_name):
-        lat, lon = convert_to_coordinates(zipc)
-        folium.Marker([lat,lon], popup=pname).add_to(map1)
+        if (type(zipc)==str):
+            lat, lon = convert_to_coordinates(zipc)
+            folium.Marker([lat,lon], popup=pname).add_to(map1)
     
     return map1
     
@@ -266,22 +267,24 @@ def convert_to_coordinates(zip_code):
     """ Converts the list of zip codes to latitude and ongitude coordinates. 
     
     Args:
-        **zip_code** (list): The zip co
+        **zip_code** (string): The zip code to be converted.
         
         
     Return:    
-        **map1** (??): The map to be plotted with a Jupyter notebook. 
+        **location.latitude** (float): The latitude corrdinate of the zip code.
+        
+        **location.longitude** (float): The longitude coordinate of the zip code.
 
     """
     geolocator = Nominatim()
     coordinate_dict={}
-    if ((zip_code)!= 'NaN'):
-        zc=str(int(zip_code))
 
-        zipState=zc + ", New York"
-        location = geolocator.geocode(zipState, timeout=10)
-        if (location !=None):
-            return location.latitude, location.longitude        
+    zc=str(int(zip_code))
+
+    zipState=zc + ", New York"
+    location = geolocator.geocode(zipState, timeout=10)
+    if (location !=None):
+        return location.latitude, location.longitude        
         
         
         
