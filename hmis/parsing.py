@@ -50,14 +50,14 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
     
     Args: 
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
-            Defaults to '~/hmis_data/'.
+        *Defaults to '~/hmis_data/'.*
             
         **filenames** (list, optional): A list of the filenames from which we will be reading the data.
             These files come from the standard HMIS data dump. 
-            Defaults to  ['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv']. 
+            *Defaults to  ['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv'].*
             
-        **verbose** (bool, optional): If this is True, additional information is printed to the screen. 
-            Defaults to False.
+        **verbose** (bool, optional): If this is True, additional information is printed to the screen.
+        *Defaults to False.*
         
     Returns:
         **enrollment_data** (Data Frame): All of the information from the enrollment file.
@@ -119,10 +119,10 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     
     Args:
         **directory** (string, optional): The directory where all of the HMIS files are stored. 
-            Defaults to '~/hmis_data/'. 
+        *Defaults to '~/hmis_data/'.*
             
         **filenames** (string, optional): The name of the files to get information from.  
-            Defaults to None. 
+        *Defaults to None.*
             
     Returns:
         **individuals** (list): This is a list of all the individual's dictionaries.

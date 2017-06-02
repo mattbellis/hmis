@@ -79,10 +79,10 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
         **image_name** (string): The name of the figure to be saved. 
         
         **exploded_view** (bool, optional): If True: each program for each individual will be plotted on the y-axis. If False: each individual will be plotted on a different point on the y-axis with multiple programs on one line.
-            Defaulted to: False.
+        *Defaulted to: False.*
         
         **plotly** (bool, optional): If True: this time-series plot will plot with plotly. This has a mouse-over feature that is useful for understanding the data that is visualized. If False: this time-series plot will be plotted with matplotlib. 
-            Defaulted to: False.
+        *Defaulted to: False.*
 
     """
     
@@ -263,30 +263,6 @@ def plot_program_locations(dictionaries):
     
     
 
-def convert_to_coordinates(zip_code):
-    """ Converts the list of zip codes to latitude and ongitude coordinates. 
-    
-    Args:
-        **zip_code** (string): The zip code to be converted.
-        
-        
-    Return:    
-        **location.latitude** (float): The latitude corrdinate of the zip code.
-        
-        **location.longitude** (float): The longitude coordinate of the zip code.
-
-    """
-    geolocator = Nominatim()
-    coordinate_dict={}
-
-    zc=str(int(zip_code))
-
-    zipState=zc + ", New York"
-    location = geolocator.geocode(zipState, timeout=10)
-    if (location !=None):
-        return location.latitude, location.longitude        
-        
-        
         
         
         

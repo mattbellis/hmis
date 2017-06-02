@@ -27,7 +27,6 @@ def calc_age(birthdate):
 
 
 
-
 ################################################################################
 # Converts a string to a datetime object.
 ################################################################################
@@ -45,3 +44,31 @@ def get_date_from_string(datestring):
     date=pd.to_datetime(datestring)
     return date
 
+
+
+################################################################################
+# Converts zip code to coordinates.
+################################################################################
+def convert_to_coordinates(zip_code):
+    """ Converts the list of zip codes to latitude and ongitude coordinates. 
+    
+    Args:
+        **zip_code** (string): The zip code to be converted.
+        
+        
+    Return:    
+        **location.latitude** (float): The latitude corrdinate of the zip code.
+        
+        **location.longitude** (float): The longitude coordinate of the zip code.
+
+    """
+    geolocator = Nominatim()
+
+    zc=str(int(zip_code))
+
+    zipState=zc + ", New York"
+    location = geolocator.geocode(zipState, timeout=10)
+    if (location !=None):
+        return location.latitude, location.longitude        
+        
+        
