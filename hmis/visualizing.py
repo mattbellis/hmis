@@ -244,8 +244,10 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
     else:
         zip_codes = {}
     tot_progs = 0
+    upeople=0
     # Loop through the list of dictionaries inputted.
     for ind in dictionaries:
+        
         prog_list = ind['Programs']
         
         
@@ -259,11 +261,13 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
                 zipc = prog['Project Zip Code']
                 project_name = prog['Project type']
             
+                # Check to see if the zip code has been added to the dictionary yet
                 if zipc in zip_codes:
                     zip_codes[zipc][0] +=1
-
                 else:
                     zip_codes[zipc] = [1, project_name]
+                if     
+                    
 
     
     # Map the coordinates with the corresponding program name
@@ -282,7 +286,7 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
             if exploded == True:
                 html = " %s " % (prog_name[num])
             else:
-                html = " %s <br>%i " % (zip_codes[zipc][1],zip_codes[zipc][0])
+                html = " %s <br>%i <br> unique individuals: %i" % (zip_codes[zipc][1],zip_codes[zipc][0],upeople)
                 
             iframe = folium.IFrame(html=html, width=200, height=80)
             popup = folium.Popup(iframe)
