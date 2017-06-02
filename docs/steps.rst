@@ -23,11 +23,10 @@ Import necessary packages
 
 .. doctest::
 
-    >>> from hmis import selection
-    >>> from hmis import general
-    >>> from hmis import visualizing 
-    >>> from hmis import parsing
+    >>> import hmis
     >>> import plotly
+    >>> import matplotlib.pylab as plt
+    >>> import folium
     
     
 If you are using a Jupyter notebook make sure to include the following in order to plot within the kernel:
@@ -41,24 +40,32 @@ If you are using a Jupyter notebook make sure to include the following in order 
 Read the dictionary file
 ------------------------
 
-To read in the entire primary dictionary file:
+Once you have made the master dictionary file, you can read it in at 
 
 .. doctest::
 
     >>> filename = 'example.pkl'
-    >>> dict_list = parsing.read_dict_file(filename)
+    >>> master_dictionary = hmis.read_dictionary_file(filename)
 
 
 Select individuals to visualize
 -------------------------------
 
-From this list of dictionaries ``dict_list``, you can define an age range to select the individuals to visualize:
+From this list of dictionaries ``master_dictionary``, you can select individuals that are within a certain  age range:
 
 .. doctest:: 
 
     >>> lo = 31
     >>> hi = 33
-    >>> selected_people = selection.get_subset_with_age_range(dict_list,lo=lo,hi=hi)
+    >>> selected_people = hmis.select_by_age(master_dictionary,lo=lo,hi=hi)
+    
+    
+Additionally, you can select individuals from ``master_dictionary`` that have been to at least a certain number of progams:
+
+.. doctest::
+    
+    >>> num_of_programs = 27
+    >>> selected_people = hmis.select_by_number_of_programs(mast-dictionary,num_of_programs)
 
 
 Visualize time-series plots
@@ -69,8 +76,19 @@ From the ``selected_people``, you can plot their time-series plots:
 .. doctest:: 
 
     >>> image_name = 'example.png'
-    >>> visualizing.plot_time_series_from_dict_list_new(ppl, image_name, plot_w_plotly=True)
+    >>> hmis.plot_time_series_from_dict_list_new(selected_people, image_name, plot_w_plotly=True)
+    
+    
+    
+Visualize program locations
+----------------------------
 
+From the ``selected_people``, you can plot the location of their programs:
+
+.. doctest:: 
+
+    >>> map2 =hmis.plot_program_locations(selected_people)
+    >>> map2
 
 
 

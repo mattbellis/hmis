@@ -11,9 +11,8 @@ import plotly.plotly as py
 #from IPython.display import Image
 from plotly.graph_objs import Scatter, Figure, Layout
 import folium
-from geopy.geocoders import Nominatim
 import math
-
+from folium.plugins import MarkerCluster
     
 
 ################################################################################
@@ -212,17 +211,24 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
     if plotly ==True:
         iplot(program_list)
 
+    
+    
+    
+    
+    
+
+    
+
         
         
-######################################################################################
-#Function to plot zip codes
-######################################################################################
         
-def plot_program_locations(dictionaries):
+def plot_program_locations(dictionaries, cluster= True, exploded=False):
     """ This function plots all of the program's zip codes with the folium package.
     
     Args:
         **dictionaries** (list): The list of dictionaries that are going to be plotted.
+        
+        
         
         
     Return:    
@@ -231,42 +237,67 @@ def plot_program_locations(dictionaries):
     """
     
     # Create a list of the zip codes and program names for each program.
-    zip_codes =[]
+    #zip_codes = []
     prog_name = []
-    
+    if (exploded == True):
+        zip_codes =[]
+    else:
+        zip_codes = {}
+    tot_progs = 0
     # Loop through the list of dictionaries inputted.
     for ind in dictionaries:
         prog_list = ind['Programs']
         
+        
         # Loop through the programs and append the zip codes and program name.
         for prog in prog_list:
-            zip_codes.append(prog['Project Zip Code'])
-            prog_name.append(prog['Project type'])
+            tot_progs +=1
+            if (exploded == True):
+                zip_codes.append(prog['Project Zip Code'])
+                prog_name.append(prog['Project type'])
+            else:
+                zipc = prog['Project Zip Code']
+                project_name = prog['Project type']
             
-    # Convert the zip codes to latitude and longitude coordinates
-    print(zip_codes[0])
-    start_lat, start_lon = convert_to_coordinates(zip_codes[0])
-    
-    # Map the first coordinate
-    map1 = folium.Map(location=[start_lat,start_lon], zoom_start = 7)
+                if zipc in zip_codes:
+                    zip_codes[zipc][0] +=1
+
+                else:
+                    zip_codes[zipc] = [1, project_name]
+
     
     # Map the coordinates with the corresponding program name
-    for zipc,pname in zip(zip_codes, prog_name):
+    albany_coordinates = [42.6526, -73.7562]
+    map1 = folium.Map(location=albany_coordinates , zoom_start=7)
+    locations=[]
+    popups=[]
+    for num,zipc in enumerate(zip_codes):
+        
+        # Convert the zip codes to latitude and longitude coordinates
         if (type(zipc)==str):
             lat, lon = convert_to_coordinates(zipc)
-            folium.Marker([lat,lon], popup=pname).add_to(map1)
-    
-    return map1
-    
-    
-    
-    
-    
+            if cluster==False:
+                rad = zip_codes[zipc][0]/tot_progs
 
-        
-        
-        
-        
-        
+            if exploded == True:
+                html = " %s " % (prog_name[num])
+            else:
+                html = " %s <br>%i " % (zip_codes[zipc][1],zip_codes[zipc][0])
+                
+            iframe = folium.IFrame(html=html, width=200, height=80)
+            popup = folium.Popup(iframe)
+            
+            
+            locations.append([lat,lon])
+            popups.append(popup)
+            if cluster == False:
+                folium.CircleMarker([lat, lon], radius=(100*rad)+1, popup = popup).add_to(map1)
+
+    if cluster == True:        
+        map1.add_child(MarkerCluster(locations=locations, popups=popups))
+    
+    return map1 
+
+
         
         
