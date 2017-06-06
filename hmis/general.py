@@ -73,3 +73,34 @@ def convert_to_coordinates(zip_code):
         return location.latitude, location.longitude        
         
         
+################################################################################
+################################################################################
+def pretty_print(inds,dump_all=False):
+
+    if type(inds)==dict:
+        inds = [inds]
+
+    for ind in inds: 
+        print("================================")
+        print((ind['Personal ID']))
+        print((ind['Age']))
+        for program in ind['Programs']:
+            #print "------"
+            output = ""
+            if dump_all:
+                for key in program:
+                    output += "%-15s: %-15s " % (key,program[key])
+                #output += "\n"
+            else:
+                output += "%-35s " % (program["Project type"])
+                output += "%s: %-10s - %-10s " % ("In/Out",program["Admission date"], program["Discharge date"])
+                output += "(%s days) " % (program["Length of stay"].days)
+                output += "\t Zip code: %s" % (program['Project Zip Code'])
+                #output += "\n"
+
+
+            print(output)
+
+
+################################################################################
+################################################################################
