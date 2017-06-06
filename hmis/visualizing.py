@@ -266,7 +266,7 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
                     zip_codes[zipc][0] +=1
                 else:
                     zip_codes[zipc] = [1, project_name]
-                if     
+                #if     
                     
 
     
