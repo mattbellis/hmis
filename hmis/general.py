@@ -76,6 +76,14 @@ def convert_to_coordinates(zip_code):
 ################################################################################
 ################################################################################
 def pretty_print(inds,dump_all=False):
+    """ This function prints the dictionaries passed to it in a way that is very easy to read.
+    
+    Args:
+        **inds** (list): The list of dictionaries that 
+        **dump_all** (bool): If True, this shows the category name. If False, this function just prints out the numerical values without the decription.
+        
+        
+    """
 
     if type(inds)==dict:
         inds = [inds]
@@ -83,7 +91,8 @@ def pretty_print(inds,dump_all=False):
     for ind in inds: 
         print("================================")
         print((ind['Personal ID']))
-        print((ind['Age']))
+        #print((ind['Age']))
+        print((ind['DOB']))
         for program in ind['Programs']:
             #print "------"
             output = ""
