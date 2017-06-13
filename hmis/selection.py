@@ -1,5 +1,5 @@
 import numpy as np
-
+from hmis.general import calc_age
 
 ################################################################################
 # Gets IDs within a certain age range.
@@ -24,8 +24,9 @@ def select_by_age(master_dictionary,lo=0, hi=1e9):
     
     # Gets the personal IDs within the age range specified. 
     personal_IDs=[]
-    age = calc_age(ind['DOB'])
+    
     for num,ind in enumerate(master_dictionary):
+        age = calc_age(ind['DOB'])
         if age>=lo and age<=hi:
             personal_IDs.append(ind['Personal ID'])
     personal_IDs=np.unique(personal_IDs)

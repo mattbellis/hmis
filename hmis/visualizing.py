@@ -7,12 +7,11 @@ from collections import OrderedDict
 import plotly.graph_objs as go
 from plotly.offline import iplot
 import plotly.plotly as py
-#import plotly.offline as offline
-#from IPython.display import Image
 from plotly.graph_objs import Scatter, Figure, Layout
 import folium
 import math
 from folium.plugins import MarkerCluster
+import time as time
     
 
 ################################################################################
@@ -235,7 +234,7 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
         **map1** (Map): The map to be displayed in a Jupyter notebook.
 
     """
-    
+    start1 = time.time()
     # Create a list of the zip codes and program names for each program.
     #zip_codes = []
     prog_name = []
@@ -269,37 +268,63 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
                 #if     
                     
 
-    
+    print("This is how long it takes to loop through all of the dictionaries %f " % (time.time()-start1))
     # Map the coordinates with the corresponding program name
     albany_coordinates = [42.6526, -73.7562]
     map1 = folium.Map(location=albany_coordinates , zoom_start=7)
     locations=[]
     popups=[]
+    time1 = 0
+    time2 = 0 
+    time3 = 0 
+    time4 = 0
+    time5 = 0
+   
     for num,zipc in enumerate(zip_codes):
         
+        #start1 = time.time()
         # Convert the zip codes to latitude and longitude coordinates
         if (type(zipc)==str):
+            
+            start1 = time.time()
             lat, lon = convert_to_coordinates(zipc)
+            time1 += (time.time()-start1)
             if cluster==False:
                 rad = zip_codes[zipc][0]/tot_progs
-
+            #time1 += (time.time()-start1)
+            
+            start2 = time.time()
             if exploded == True:
                 html = " %s " % (prog_name[num])
             else:
                 html = " %s <br>%i <br> unique individuals: %i" % (zip_codes[zipc][1],zip_codes[zipc][0],upeople)
-                
+            time2 += (time.time()-start2)
+            
+            
+            start3 = time.time()
             iframe = folium.IFrame(html=html, width=200, height=80)
             popup = folium.Popup(iframe)
+            time3 += (time.time() -start3)
             
             
+            start4 = time.time()
             locations.append([lat,lon])
             popups.append(popup)
             if cluster == False:
                 folium.CircleMarker([lat, lon], radius=(100*rad)+1, popup = popup).add_to(map1)
-
+            time4 += (time.time() - start4)
+    
+    start5 = time.time()
     if cluster == True:        
         map1.add_child(MarkerCluster(locations=locations, popups=popups))
     
+    time5 += (time.time()-start5)
+    
+    print("This is how long it takes to convert zip codes %f" % (time1))
+    print("This is how long it takes if exploded is true %f " % (time2))
+    print("This is how long it takes to execute the folium frame %f " % (time3))
+    print("This is how long it takes if cluster is false %f " % (time4))
+    print("This is how long it takes if cluster is true %f " % (time5))
     return map1 
 
 
