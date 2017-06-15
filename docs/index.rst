@@ -6,6 +6,17 @@
 Welcome to hmis_'s documentation!
 =================================
 
+Installation instructions
+
+Clone the source repository from Github.
+
+On the command line, enter:
+
+$ git clone git@github.com:mattbellis/hmis.git
+
+
+
+
 Contents:
 
 .. toctree::

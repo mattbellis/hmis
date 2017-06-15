@@ -48,7 +48,7 @@ class TestStringMethods(unittest.TestCase):
 ################################################################################
 class TestGeneralFunctions(unittest.TestCase):
     
-    def test_calc_age():
+    def test_calc_age(self):
         
         ex_birthdate = '1995-05-30'
         ex_age = hmis.calc_age(ex_birthdate)
@@ -56,7 +56,7 @@ class TestGeneralFunctions(unittest.TestCase):
         assert ex_age == 22
         
         
-    def test_getting_age():
+    def test_getting_age(self):
         
         ex_ind = {'Age': 32, 'Personal ID': '104846641', 'Programs': [{'Project type': 'Services Only', 'Discharge date': '10/20/2014', 'Admission date': '10/4/2016', 'Length of stay': datetime.timedelta(-715), 'Project Zip Code': '12206'}, {'Project type': 'Emergency Shelter', 'Discharge date': '2/28/2014', 'Admission date': '10/6/2014', 'Length of stay': datetime.timedelta(-220), 'Project Zip Code': '12210'}]}
         

@@ -46,6 +46,7 @@ def get_pids(enrollment_data):
 # Read in the file names only when we call this function.
 ################################################################################
 def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv'],verbose=False):
+    
     """ This function reads all of the HMIS files inputted using pandas.
     
     Args: 
@@ -104,7 +105,7 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
         elif i==4:
             site_data=pd.read_csv(fullpath,delimiter=',',dtype=str)
 
-    return enrollment_data,exit_data,project_data,client_data, site_data
+    return enrollment_data, exit_data, project_data, client_data, site_data
 
 
 

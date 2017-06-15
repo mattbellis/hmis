@@ -78,7 +78,7 @@ def convert_to_coordinates(zip_code):
         
 ################################################################################
 ################################################################################
-def pretty_print(inds,dump_all=False):
+def pretty_print(inds, dump_all=False):
     """ This function prints the dictionaries passed to it in a way that is very easy to read.
     
     Args:
@@ -87,29 +87,31 @@ def pretty_print(inds,dump_all=False):
         
         
     """
-
+    
+    # Make sure inds is a list.
     if type(inds)==dict:
         inds = [inds]
 
+        
     for ind in inds: 
         print("================================")
         print((ind['Personal ID']))
-        #print((ind['Age']))
         print((ind['DOB']))
         for program in ind['Programs']:
-            #print "------"
+
             output = ""
+            
+            # Adds the keys to the programs along with the values in all of the programs. 
             if dump_all:
                 for key in program:
-                    output += "%-15s: %-15s " % (key,program[key])
-                #output += "\n"
+                    output += "%-15s: %-15s " % (key, program[key])
+
+            # Adds only the values of all the programs.        
             else:
                 output += "%-35s " % (program["Project type"])
                 output += "%s: %-10s - %-10s " % ("In/Out",program["Admission date"], program["Discharge date"])
                 output += "(%s days) " % (program["Length of stay"].days)
                 output += "\t Zip code: %s" % (program['Project Zip Code'])
-                #output += "\n"
-
 
             print(output)
 
@@ -118,6 +120,7 @@ def pretty_print(inds,dump_all=False):
 ################################################################################
 
 def calc_average_age(ppl):
+    
     
     
     age_earlier =[]
