@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 ################################################################################
 # Get age from birthdate.
 ################################################################################
-def calc_age(birthdate):
+def calc_age(birthdate, admission_date = 0):
     """ This function calculates the age of an individual using their birthdate.
     
     Args:
@@ -18,10 +18,13 @@ def calc_age(birthdate):
     
     
     """
-    
     birth_year,birth_month,birth_day = birthdate.split('-')
     born = dt.datetime(int(birth_year),int(birth_month),int(birth_day))
-    today = datetime.now()
+    if admission_date !=0:
+        today = get_date_from_string(admission_date)
+    else:
+        today = datetime.now()
+    
     age= today.year-born.year - ((today.month,today.day) < (born.month, born.day))
 
     return age
@@ -113,3 +116,98 @@ def pretty_print(inds,dump_all=False):
 
 ################################################################################
 ################################################################################
+
+def calc_average_age(ppl):
+    
+    
+    age_earlier =[]
+    age2013 =[]
+    age2014 = []
+    age2015 =[]
+    age2016=[]
+
+
+    for person in ppl:
+
+        for program in person['Programs']:
+            ad_date = program['Admission date']
+            
+            if (get_date_from_string(ad_date)).year == 2013:
+                age = calc_age(person['DOB'], program['Admission date'])
+                age2013.append(age)
+
+            elif (get_date_from_string(ad_date)).year == 2014:
+                age = calc_age(person['DOB'], program['Admission date'])
+                age2014.append(age)
+                
+            elif (get_date_from_string(ad_date)).year == 2015:
+                age = calc_age(person['DOB'], program['Admission date'])
+                age2015.append(age)
+                
+            elif (get_date_from_string(ad_date)).year == 2016:
+                age = calc_age(person['DOB'], program['Admission date'])
+                age2016.append(age)
+                
+            else:
+                age = calc_age(person['DOB'], program['Admission date'])
+                age_earlier.append(age)
+               
+
+                
+          
+    average_age_earlier = sum(age_earlier)/len(age_earlier)
+    print("Average age for all years before 2013: %i " % average_age_earlier)
+    
+    average_age2013 = sum(age2013)/len(age2013)
+    print("Average age for the year 2013: %i " % average_age2013)
+
+    average_age2014 = sum(age2014)/len(age2014)
+    print("Average age for the year 2014: %i " % average_age2014)
+
+    average_age2015 = sum(age2015)/len(age2015)
+    print("Average age for the year 2015: %i " % average_age2015)
+
+    average_age2016 = sum(age2016)/len(age2016)
+    print("Average age for the year 2016: %i " % average_age2016)
+
+    return [age_earlier, age2013, age2014, age2015, age2016]
+    
+
+
+
+
+
+
+################################################################################
+################################################################################
+
+def organize_ages_by_admission_dates(ppl):
+    
+
+
+    year_dictionary = {}
+
+    
+    for person in ppl:
+
+        for program in person['Programs']:
+            ad_date = program['Admission date']
+            
+            if get_date_from_string(ad_date).year in year_dictionary:
+                year_dictionary[get_date_from_string(ad_date).year].append(calc_age(person['DOB'], program['Admission date']))
+            else:
+                year_dictionary[get_date_from_string(ad_date).year] = [calc_age(person['DOB'], program['Admission date'])]
+
+  
+
+    return year_dictionary
+
+
+
+
+def print_average_ages(year_dictionary):
+    
+    
+    for year in year_dictionary:
+        print("Average age for the year %i : %i " % (year, sum(year_dictionary[year])/len(year_dictionary[year] )))
+        
