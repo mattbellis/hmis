@@ -40,7 +40,8 @@ def test_read_in_data():
 
 
 def test_get_pids():
-
+    
+    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = directory)
     personalids = hmis.get_pids(enrollment_data)
 
     assert isinstance(personalids, np.array)
