@@ -2,6 +2,7 @@ import datetime as dt
 from datetime import timedelta, datetime
 import pandas as pd
 from geopy.geocoders import Nominatim
+import collections
 
 
 ################################################################################
@@ -189,7 +190,7 @@ def organize_ages_by_admission_dates(ppl):
 
 
     year_dictionary = {}
-
+    sorted_year_dictionary = {}
     
     for person in ppl:
 
@@ -202,7 +203,7 @@ def organize_ages_by_admission_dates(ppl):
                 year_dictionary[get_date_from_string(ad_date).year] = [calc_age(person['DOB'], program['Admission date'])]
 
   
-
+    year_dictionary = collections.OrderedDict(sorted(year_dictionary.items()))
     return year_dictionary
 
 
