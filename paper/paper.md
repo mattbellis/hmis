@@ -8,7 +8,7 @@ authors:
  - name: Sara Mahar
    orcid: 0000-0000-0000-0000
    affiliation: 1
-- name: Matthew Bellis
+ - name: Matthew Bellis
 orcid: 0000-0000-0000-0000
 affiliation: 1
 affiliations:
