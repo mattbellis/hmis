@@ -1,9 +1,14 @@
 ---
 title: 'hmis python- A Python tool to visualize and analyze HMIS data'
 tags:
-  - example
-  - tags
-  - for the paper
+  - python
+  - hmis
+  - homelessness
+  - homeless
+  - continuum of care
+  - open source
+  - data visualization
+  - data science
 authors:
  - name: Sara Mahar
    orcid: 0000-0000-0000-0000
