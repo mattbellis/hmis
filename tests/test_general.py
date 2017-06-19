@@ -9,16 +9,12 @@ filename = 'save_dicts_June16.pkl'
 master_dictionary = hmis.read_dictionary_file(filename)
 
 
-        
-
-
 def test_calc_age():
 
     ex_birthdate = '1995-05-30'
     ex_age = hmis.calc_age(ex_birthdate)
 
-    assert ex_age == 22
-        
+    assert ex_age == 22 
     assert isinstance(ex_age, int)    
         
         
@@ -36,12 +32,11 @@ def test_get_date_from_string():
         
         
 def test_convert_to_coordinates():
-    zip_code = 12211
     
+    zip_code = 12211
     lat, long = hmis.convert_to_coordinates(zip_code)
     
     assert isinstance(lat, float)
-    
     assert isinstance(long, float)
     
     assert abs(lat-42.7066463925) < 0.0001
@@ -61,12 +56,6 @@ def test_pretty_print():
     #assert ex_print == capturedOutput.getvalue()
         
         
-def test_getting_age():
-
-    ex_ind = {'Age': 32, 'Personal ID': '104846641', 'Programs': [{'Project type': 'Services Only', 'Discharge date': '10/20/2014', 'Admission date': '10/4/2016', 'Length of stay': datetime.timedelta(-715), 'Project Zip Code': '12206'}, {'Project type': 'Emergency Shelter', 'Discharge date': '2/28/2014', 'Admission date': '10/6/2014', 'Length of stay': datetime.timedelta(-220), 'Project Zip Code': '12210'}]}
-
-    assert ex_ind['Age'] ==32
-        
         
         
         
@@ -75,12 +64,6 @@ def test_calc_average_age():
     
     ages_list = hmis.calc_average_age(master_dictionary)
     age_earlier, age2013, age2014, age2015, age2016 = ages_list
-    
-    #Average age for all years before 2013: 49 
-#Average age for the year 2013: 23 
-#Average age for the year 2014: 23 
-#Average age for the year 2015: 26 
-#Average age for the year 2016: 26 
     for a in ages_list:
         assert isinstance(a, list)
         

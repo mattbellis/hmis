@@ -86,18 +86,26 @@ def pretty_print(inds, dump_all=False):
         **inds** (list): The list of dictionaries that 
         **dump_all** (bool): If True, this shows the category name. If False, this function just prints out the numerical values without the decription.
         
+    Return:
+        success (bool): 
         
     """
-    
+    success = True
     # Make sure inds is a list.
     if type(inds)==dict:
         inds = [inds]
 
+    if type(inds) != list:
+        success = False
         
     for ind in inds: 
         print("================================")
         print((ind['Personal ID']))
         print((ind['DOB']))
+        
+        if ind['Programs'] != list:
+            success = False
+            
         for program in ind['Programs']:
 
             output = ""
@@ -115,7 +123,7 @@ def pretty_print(inds, dump_all=False):
                 output += "\t Zip code: %s" % (program['Project Zip Code'])
 
             print(output)
-
+    return success
 
 ################################################################################
 ################################################################################
@@ -214,4 +222,18 @@ def print_average_ages(year_dictionary):
     
     for year in year_dictionary:
         print("Average age for the year %i : %i " % (year, sum(year_dictionary[year])/len(year_dictionary[year] )))
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         

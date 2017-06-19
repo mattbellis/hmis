@@ -1,15 +1,3 @@
-"""
-Building dictionary file
-    Read_in_data 
-    Get_pids 
-    Calc_age (general)
-    Create_dictionary_list
-    Save_file 
- 
-Reading in the dictionary file
-    Read_dictionary_file
-"""
-
 import hmis
 import unittest
 import pandas as pd
@@ -17,18 +5,11 @@ import numpy
 from pandas.util.testing import assert_series_equal, assert_frame_equal
 
 
-
-
-#class TestParsingFunctions(unittest.TestCase):
-
 directory = '~/Documents/hmis_data_copy'
 filename = 'save_dicts_June16.pkl'
 
 
-
 def test_read_in_data():
-
-    
 
     enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = directory)
 
@@ -55,7 +36,6 @@ def test_get_pids():
     
     enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = directory)
     personalids = hmis.get_pids(enrollment_data)
-    
     
     assert isinstance(personalids, numpy.ndarray)
     assert len(personalids) == 99
@@ -88,21 +68,5 @@ def test_save_file():
         
         
 
-        
-        
-        
-#def test_read_dictionary_file():
-    
-    
-    #people_list = hmis.read_dictionary_file(filename)
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
         

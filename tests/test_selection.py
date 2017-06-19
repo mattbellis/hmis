@@ -1,7 +1,5 @@
 import hmis
 
-
-
 filename = 'save_dicts_June16.pkl'
 master_dictionary = hmis.read_dictionary_file(filename)
 
@@ -14,7 +12,6 @@ def test_select_by_age():
 
     ppl_based_on_age = hmis.select_by_age(people,lo=lo,hi=hi)
     
-
     assert isinstance(ppl_based_on_age, list)
 
     
@@ -55,8 +52,6 @@ def test_select_by_program_type():
     program_type = 'Transitional Housing'
     
     ppl_based_on_program_type = hmis.select_by_program_type(master_dictionary, program_type)
-    
-    #print("the length: %i" %len(ppl_based_on_program_type))
     assert (len(ppl_based_on_program_type) == 46)
     
     assert isinstance(ppl_based_on_program_type, list)
