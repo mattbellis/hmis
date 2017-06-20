@@ -10,4 +10,4 @@ See the hmis-python repository and readthedocs for further information.
 
 # Install
 
-Install the latest version (from GitHub): 'pip install git+git://github.com/rasbt/biopandas.git#egg=biopandas'
+Install the latest version (from GitHub): `pip install git+git://github.com/rasbt/biopandas.git#egg=biopandas`
