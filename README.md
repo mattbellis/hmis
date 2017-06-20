@@ -28,3 +28,30 @@ Install the latest version (from GitHub): `pip install git+git://github.com/rasb
 This repository also contains a [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/index.html) where you can see some examples of the visualizations and analysis features of hmis-python.
 
 ## Basic example 
+
+
+```
+import hmis
+
+people = hmis.read_dictionary_file('save_dicts_June13.pkl')
+
+people_selected_by_age = hmis.select_by_age(people,lo=1,hi=5)
+
+map1 =hmis.plot_program_locations(people_selected_by_age, cluster=True, exploded=True)
+
+map1
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
