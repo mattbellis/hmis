@@ -233,8 +233,6 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
 
             los=(end-start)
 
-            
-            #program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type})
             program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
             
         individuals.append({'Personal ID':pid, 'DOB': dob_date,'Programs':program_list})

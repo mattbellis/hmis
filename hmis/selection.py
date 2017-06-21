@@ -122,7 +122,7 @@ def select_by_program_type(master_dictionary, prog_type):
     personal_IDs = []
     for num, ind in enumerate(master_dictionary):
         prog_list = ind['Programs']
-        #print(prog_list)
+        
         for p in prog_list:
             if (p['Project type'] == prog_type):
                 personal_IDs.append(ind['Personal ID'])
@@ -137,16 +137,4 @@ def select_by_program_type(master_dictionary, prog_type):
     return dictionary_subset
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
