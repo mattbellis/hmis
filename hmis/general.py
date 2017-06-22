@@ -86,17 +86,12 @@ def pretty_print(inds, dump_all=False):
         **inds** (list): The list of dictionaries that 
         **dump_all** (bool): If True, this shows the category name. If False, this function just prints out the numerical values without the decription.
         
-    Return:
-        success (bool): 
         
     """
-    success = True
+
     # Make sure inds is a list.
     if type(inds)==dict:
         inds = [inds]
-
-    if type(inds) != list:
-        success = False
         
     for ind in inds: 
         print("================================")
@@ -104,7 +99,6 @@ def pretty_print(inds, dump_all=False):
         print((ind['DOB']))
         
         if ind['Programs'] != list:
-            success = False
             
         for program in ind['Programs']:
 
@@ -123,13 +117,21 @@ def pretty_print(inds, dump_all=False):
                 output += "\t Zip code: %s" % (program['Project Zip Code'])
 
             print(output)
-    return success
 
 ################################################################################
 ################################################################################
 
 def calc_average_age_by_year(ppl):
+    """ Calculates the average age split up by year. The years are split up from 2013, 2014, 2015, 2016 and earlier than 2013. 
     
+    Args:
+        **ppl** (list): The list of dictionaries of the individuals to be analyzed.
+        
+        
+    Return:    
+        **average_age_list** (list): The list of average ages, starting with 2013, 2014, 2015, and 2016 and then the average age for the years before 2013. 
+
+    """
     
     
     age_earlier =[]
@@ -181,8 +183,10 @@ def calc_average_age_by_year(ppl):
 
     average_age2016 = sum(age2016)/len(age2016)
     print("Average age for the year 2016: %i " % average_age2016)
+    
+    average_age_list = [age_earlier, age2013, age2014, age2015, age2016]
 
-    return [age_earlier, age2013, age2014, age2015, age2016]
+    return average_age_list
     
 
 
@@ -194,14 +198,24 @@ def calc_average_age_by_year(ppl):
 ################################################################################
 
 def organize_ages_by_admission_dates(ppl):
+    """ Organizes the ages in a dictionary depending on when they entered the program. The years are split up from 2013, 2014, 2015, 2016 and earlier than 2013. 
     
+    Args:
+        **ppl** (list): The list of dictionaries of the individuals to be analyzed.
+        
+        
+    Return:    
+        **yeah_dictionary** (dict): The dictionaries of the ages of individuals for the appropriate year they entered a specific program.
+
+    """
 
 
     year_dictionary = {}
-    sorted_year_dictionary = {}
     
+    # Loop through each individual
     for person in ppl:
 
+        # Loop through each program of each individual
         for program in person['Programs']:
             ad_date = program['Admission date']
             
@@ -210,7 +224,7 @@ def organize_ages_by_admission_dates(ppl):
             else:
                 year_dictionary[get_date_from_string(ad_date).year] = [calc_age(person['DOB'], program['Admission date'])]
 
-  
+    # Sort the years in order
     year_dictionary = collections.OrderedDict(sorted(year_dictionary.items()))
     return year_dictionary
 
@@ -218,6 +232,12 @@ def organize_ages_by_admission_dates(ppl):
 
 
 def print_average_ages(year_dictionary):
+    """ Prints the average age for each year that someone has visited a program. 
+    
+    Args:
+        **year_dictionary** (dict): The dictionaries of the ages of individuals for the appropriate year they entered a specific program.
+
+    """
     
     
     for year in year_dictionary:
