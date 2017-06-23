@@ -1,5 +1,5 @@
 import numpy as np
-
+from hmis.general import calc_age
 
 ################################################################################
 # Gets IDs within a certain age range.
@@ -24,8 +24,10 @@ def select_by_age(master_dictionary,lo=0, hi=1e9):
     
     # Gets the personal IDs within the age range specified. 
     personal_IDs=[]
+    
     for num,ind in enumerate(master_dictionary):
-        if ind['Age']>=lo and ind['Age']<=hi:
+        age = calc_age(ind['DOB'])
+        if age>=lo and age<=hi:
             personal_IDs.append(ind['Personal ID'])
     personal_IDs=np.unique(personal_IDs)
     personal_IDs.sort()
@@ -102,7 +104,37 @@ def select_by_number_of_programs(master_dictionary, num_of_programs):
     
     
     
+def select_by_program_type(master_dictionary, prog_type):
+    """ 
+    This function returns the dictionaries of the individuals that have stayed at the inputted program type.
     
     
+    Args:
+        **master_dictionary** (list): Full list of the dictionaries.
+        
+        **prog_type** (str): The type of prgram that the individual must have stayed at.
+        
+    Returns: 
+        **dictionary_subset** (list): The list of dictionaries of the individuals that have 
+        
+    """
+    
+    personal_IDs = []
+    for num, ind in enumerate(master_dictionary):
+        prog_list = ind['Programs']
+        
+        for p in prog_list:
+            if (p['Project type'] == prog_type):
+                personal_IDs.append(ind['Personal ID'])
     
     
+    personal_IDs=np.unique(personal_IDs)
+    personal_IDs.sort()
+    print((len(personal_IDs)))
+    
+    dictionary_subset = subset_from_dictionary(personal_IDs,master_dictionary)
+    
+    return dictionary_subset
+    
+    
+

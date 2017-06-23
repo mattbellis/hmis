@@ -46,6 +46,7 @@ def get_pids(enrollment_data):
 # Read in the file names only when we call this function.
 ################################################################################
 def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv'],verbose=False):
+    
     """ This function reads all of the HMIS files inputted using pandas.
     
     Args: 
@@ -104,7 +105,7 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
         elif i==4:
             site_data=pd.read_csv(fullpath,delimiter=',',dtype=str)
 
-    return enrollment_data,exit_data,project_data,client_data, site_data
+    return enrollment_data, exit_data, project_data, client_data, site_data
 
 
 
@@ -190,9 +191,10 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
         indate = entry_date[enroll_idx] 
         outdate = exit_date[exit_idx] 
         dob_date = client_dob[client_idx]
+        dob_date = str(dob_date.values[0])
         
         # Calculates the age of the individual.
-        dob=calc_age(str(dob_date.values[0]))
+        #dob = calc_age(str(dob_date.values[0]))
         
         # Get the Project IDs 
         peid = projectID_EN[enroll_idx]  
@@ -203,12 +205,12 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
         for num,(idate, odate, projid) in enumerate(zip(indate, outdate, peid)):
             
             # Get the project type
-            project_num= projectID_PR[projectID_PR==projid].index[0]
-            this_proj_type= project_index[int(project_type[project_num])-1]
+            project_num = projectID_PR[projectID_PR==projid].index[0]
+            this_proj_type = project_index[int(project_type[project_num])-1]
             
             # Get the Zip code for the project
             if (len(zip_codes[projid==projectID_site])>0):
-                num_for_zip=zip_codes[projid==projectID_site].index[0]
+                num_for_zip = zip_codes[projid==projectID_site].index[0]
 
             this_zip=zip_codes[num_for_zip]
 
@@ -231,11 +233,9 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
 
             los=(end-start)
 
-            
-            #program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type})
             program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
             
-        individuals.append({'Personal ID':pid, 'Age': dob,'Programs':program_list})
+        individuals.append({'Personal ID':pid, 'DOB': dob_date,'Programs':program_list})
 
         icount += 1
         

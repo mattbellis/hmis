@@ -7,12 +7,11 @@ from collections import OrderedDict
 import plotly.graph_objs as go
 from plotly.offline import iplot
 import plotly.plotly as py
-#import plotly.offline as offline
-#from IPython.display import Image
 from plotly.graph_objs import Scatter, Figure, Layout
 import folium
 import math
 from folium.plugins import MarkerCluster
+import time as time
     
 
 ################################################################################
@@ -228,23 +227,20 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
     Args:
         **dictionaries** (list): The list of dictionaries that are going to be plotted.
         
-        
-        
-        
     Return:    
         **map1** (Map): The map to be displayed in a Jupyter notebook.
 
     """
-    
-    # Create a list of the zip codes and program names for each program.
-    #zip_codes = []
+
     prog_name = []
     if (exploded == True):
         zip_codes =[]
     else:
         zip_codes = {}
+        
     tot_progs = 0
     upeople=0
+    
     # Loop through the list of dictionaries inputted.
     for ind in dictionaries:
         
@@ -254,6 +250,7 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
         # Loop through the programs and append the zip codes and program name.
         for prog in prog_list:
             tot_progs +=1
+            
             if (exploded == True):
                 zip_codes.append(prog['Project Zip Code'])
                 prog_name.append(prog['Project type'])
@@ -266,31 +263,32 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
                     zip_codes[zipc][0] +=1
                 else:
                     zip_codes[zipc] = [1, project_name]
-                #if     
-                    
 
-    
     # Map the coordinates with the corresponding program name
     albany_coordinates = [42.6526, -73.7562]
     map1 = folium.Map(location=albany_coordinates , zoom_start=7)
     locations=[]
     popups=[]
+
+   
     for num,zipc in enumerate(zip_codes):
         
         # Convert the zip codes to latitude and longitude coordinates
         if (type(zipc)==str):
+
             lat, lon = convert_to_coordinates(zipc)
+
             if cluster==False:
                 rad = zip_codes[zipc][0]/tot_progs
-
+            
             if exploded == True:
                 html = " %s " % (prog_name[num])
             else:
                 html = " %s <br>%i <br> unique individuals: %i" % (zip_codes[zipc][1],zip_codes[zipc][0],upeople)
-                
+            
+
             iframe = folium.IFrame(html=html, width=200, height=80)
             popup = folium.Popup(iframe)
-            
             
             locations.append([lat,lon])
             popups.append(popup)
