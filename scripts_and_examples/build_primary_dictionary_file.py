@@ -1,5 +1,10 @@
 import hmis
 import time
+import sys
+
+tag = ""
+if len(sys.argv)>1:
+    tag = "_%s" % (sys.argv[1])
 
 # Location of the 12 files from the HMIS data dump.
 hmis_data_location = '~/hmis_data/'
@@ -14,7 +19,8 @@ inds = hmis.create_dictionary_list(directory=hmis_data_location)
 
 # Write this dictionary to a pickled file.
 print("Writing pickle file...")
-hmis.save_file(inds, 'save_dicts_June1.pkl')
+outfilename = "hmis_data%s.pkl" % (tag)
+hmis.save_file(inds, outfilename)
 
 
 print("Done!")
