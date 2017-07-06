@@ -176,6 +176,7 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     
     icount = 0
     for pid in personalids:
+        print("pid: ",pid)
 
         if icount%1000==0:
             print(icount)
@@ -201,8 +202,14 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
         
         program_list=[]
         
+        print("----------")
+        print(indate)
+        print(outdate)
+        print(peid)
+
         # Loop through the entry date, exit date and project ID for each project that an individual has.
         for num,(idate, odate, projid) in enumerate(zip(indate, outdate, peid)):
+            print(idate,odate,projid)
             
             # Get the project type
             project_num = projectID_PR[projectID_PR==projid].index[0]
@@ -221,14 +228,32 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
             # If there is an exit date split the date: else, use today's date as the end date.
             if len(thisoutdate)>0:
                 
-                month,day,year = thisoutdate.split('/')
+                if thisoutdate.find('/')>=0:
+                    month,day,year = thisoutdate.split('/')
+                elif thisoutdate.find('-')>=0:
+                    year,month,day = thisoutdate.split('-')
+                else:
+                    print("Can't recognize date format...")
+                    print(thisoutdate)
+                    exit(-1)
                 
             else:
                 now = datetime.now()
                 year,month,day = now.year, now.month, now.day
 
             end = dt.datetime(int(year),int(month),int(day))
-            month,day,year = thisindate.split('/')
+            
+            if thisindate.find('/')>=0:
+                month,day,year = thisindate.split('/')
+            elif thisindate.find('-')>=0:
+                year,month,day = thisindate.split('-')
+            else:
+                print("Can't recognize date format...")
+                print(thisindate)
+                exit(-1)
+            
+
+
             start = dt.datetime(int(year),int(month),int(day))
 
             los=(end-start)

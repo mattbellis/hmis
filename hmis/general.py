@@ -100,23 +100,23 @@ def pretty_print(inds, dump_all=False):
         
         if ind['Programs'] != list:
             
-        for program in ind['Programs']:
+            for program in ind['Programs']:
+                
+                output = ""
+                
+                # Adds the keys to the programs along with the values in all of the programs. 
+                if dump_all:
+                    for key in program:
+                        output += "%-15s: %-15s " % (key, program[key])
 
-            output = ""
-            
-            # Adds the keys to the programs along with the values in all of the programs. 
-            if dump_all:
-                for key in program:
-                    output += "%-15s: %-15s " % (key, program[key])
+                # Adds only the values of all the programs.        
+                else:
+                    output += "%-35s " % (program["Project type"])
+                    output += "%s: %-10s - %-10s " % ("In/Out",program["Admission date"], program["Discharge date"])
+                    output += "(%s days) " % (program["Length of stay"].days)
+                    output += "\t Zip code: %s" % (program['Project Zip Code'])
 
-            # Adds only the values of all the programs.        
-            else:
-                output += "%-35s " % (program["Project type"])
-                output += "%s: %-10s - %-10s " % ("In/Out",program["Admission date"], program["Discharge date"])
-                output += "(%s days) " % (program["Length of stay"].days)
-                output += "\t Zip code: %s" % (program['Project Zip Code'])
-
-            print(output)
+                print(output)
 
 ################################################################################
 ################################################################################
