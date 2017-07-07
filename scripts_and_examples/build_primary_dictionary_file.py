@@ -26,4 +26,4 @@ hmis.save_file(inds, outfilename)
 
 
 print("Done!")
-print(time.time()-start)
+print("Time to generate file: %f seconds" % (time.time()-start))

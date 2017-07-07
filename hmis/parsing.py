@@ -176,7 +176,6 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     
     icount = 0
     for pid in personalids:
-        print("pid: ",pid)
 
         if icount%1000==0:
             print(icount)
@@ -202,14 +201,8 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
         
         program_list=[]
         
-        print("----------")
-        print(indate)
-        print(outdate)
-        print(peid)
-
         # Loop through the entry date, exit date and project ID for each project that an individual has.
         for num,(idate, odate, projid) in enumerate(zip(indate, outdate, peid)):
-            print(idate,odate,projid)
             
             # Get the project type
             project_num = projectID_PR[projectID_PR==projid].index[0]
