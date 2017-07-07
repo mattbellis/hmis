@@ -37,7 +37,8 @@ These groups can download the data in a standardized "HMIS data dump", which res
 
 This module contains a suite of python functions to allow for analysis and visualization of the data collected by the various partners across the CoC. Visualization includes time-series plots, and mapping of the locations of the programs individuals have entered. Analysis can be done with these visualizations and with the ability to withdraw individuals who share a common character. For example, the analyst can withdraw all of the individuals who have visited more than 25 programs and then visualize them. 
 
-We have developed these tools to work with the standard HMIS data dump and so any other tools that leverage this software package can be used by similar networks across the country.
+We have developed these tools to work with the standard HMIS data dump in the RHY (Runaway and Homeless Youth) data format, that produces 12 .csv files in which personal identifying information is de-identified through a hashing algorithm. 
+Because of this standardization, any other tools that leverage this software package can be used by similar networks across the country.
 
 
 
