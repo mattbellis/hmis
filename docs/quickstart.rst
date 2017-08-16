@@ -17,6 +17,7 @@ There are requirements that hmis-python needs:
 * Python 3.5, or 3.6
 * NumPy >= 1.11.2
 * Pandas >= 0.19.1
+* Plotly >= 2.0.0
 * Folium >= 0.3.0
 * Geopy >= 1.10.0
 

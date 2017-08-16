@@ -21,6 +21,13 @@ from hmis.general import calc_age
 # some time. 
 ################################################################################
 
+# List of all of the projects in the CoC.
+def project_types():
+
+    proj_types=['Emergency Shelter','Transitional Housing', 'PH - Permanent Supportive Housing', 'Street Outreach','RETIRED','Services Only','Other Safe Haven','PH - Housing Only','PH - Housing with Services','Day Shelter','Homelessness Prevention','PH - Rapid Re-Housing','Coordinated Assesment']
+
+    return proj_types
+
 
 ################################################################################
 # Get all of the personal IDs
@@ -115,7 +122,7 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
 ################################################################################
 # Make the large list of dictionaries.
 ################################################################################
-def create_dictionary_list(directory='~/hmis_data/',filenames=None):
+def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=None):
     """ This function creates a list of all dictionaries in the enrollment file.
     
     Args:
@@ -124,6 +131,10 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
             
         **filenames** (string, optional): The name of the files to get information from.  
         *Defaults to None.*
+            
+        **max_people** (int, optional): For debugging. The maximum number of people you
+        use to build the file. 
+        *Defaults to None which reads in all people.*
             
     Returns:
         **individuals** (list): This is a list of all the individual's dictionaries.
@@ -140,6 +151,12 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     # If the personal ID is not a list make it a list of one variable
     if type(personalids) != list and type(personalids) != np.ndarray:
         personalids = [personalids]
+
+    # Some data will be duplicated as multiple people will appear multiple times.
+    # So pull out only the unique personal IDs. 
+    personalids = np.unique(personalids)
+
+    npersonalids = len(personalids)
         
     individuals = []
     
@@ -171,15 +188,18 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None):
     
     
     # List of all of the projects in the CoC.
-    project_index=['Emergency Shelter','Transitional Housing', 'PH - Permanent Supportive Housing', 'Street Outreach','RETIRED','Services Only','Other Safe Haven','PH - Housing Only','PH - Housing with Services','Day Shelter','Homelessness Prevention','PH - Rapid Re-Housing','Coordinated Assesment']
+    project_index=project_types()
 
-    
     icount = 0
     for pid in personalids:
 
-        if icount%1000==0:
-            print(icount)
-        
+        if icount%100==0:
+            print("Processed %d out of %d Personal IDs" % (icount,npersonalids))
+
+        if max_people is not None:
+            if icount >= max_people:
+                break
+
         unames = np.unique(pidEN) 
 
         # Get all Enrollment, Exit and Client indices from each respective file.
