@@ -8,7 +8,8 @@ if len(sys.argv)>1:
 
 # Location of the 12 files from the HMIS data dump.
 #hmis_data_location = '~/Documents/hmis_data'
-hmis_data_location = '~/hmis_fake_data'
+hmis_data_location = '~/hmis_data'
+#hmis_data_location = '~/hmis_fake_data'
 start=time.time()
 
 # Put together a dictionary of all the individuals in the HMIS
