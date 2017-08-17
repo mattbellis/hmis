@@ -7,8 +7,7 @@ from datetime import timedelta, datetime
 import pickle
 import matplotlib.pyplot as plt
 from hmis.general import calc_age
-#from collections import OrderedDict
-#'''
+import time
 
 
 ################################################################################
@@ -24,7 +23,20 @@ from hmis.general import calc_age
 # List of all of the projects in the CoC.
 def project_types():
 
-    proj_types=['Emergency Shelter','Transitional Housing', 'PH - Permanent Supportive Housing', 'Street Outreach','RETIRED','Services Only','Other Safe Haven','PH - Housing Only','PH - Housing with Services','Day Shelter','Homelessness Prevention','PH - Rapid Re-Housing','Coordinated Assesment']
+    # This comes from the HMIS Data Dictionary and might need to updated every now and then from their documentation.
+    proj_types=['Emergency Shelter', \
+                'Transitional Housing', \
+                'PH - Permanent Supportive Housing', \
+                'Street Outreach', \
+                'RETIRED', \
+                'Services Only', \
+                'Other', \
+                'Safe Haven', \
+                'PH - Housing Only', \
+                'PH - Housing with Services', \
+                'Day Shelter', \
+                'Homelessness Prevention', \
+                'PH - Rapid Re-Housing','Coordinated Assesment']
 
     return proj_types
 
@@ -186,15 +198,16 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     zip_codes=site_data['ZIP']
     projectID_site=site_data['ProjectID']  
     
-    
     # List of all of the projects in the CoC.
     project_index=project_types()
 
+    # Keep track of how much time has passed
+    start_processing = time.time()
     icount = 0
     for pid in personalids:
 
         if icount%100==0:
-            print("Processed %d out of %d Personal IDs" % (icount,npersonalids))
+            print("Processed %d out of %d Personal IDs - %0.2f minutes" % (icount,npersonalids,(time.time()-start_processing)/60.))
 
         if max_people is not None:
             if icount >= max_people:
@@ -226,8 +239,22 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
             
             # Get the project type
             project_num = projectID_PR[projectID_PR==projid].index[0]
+
+            '''
+            print("---------")
+            print("icount: ",icount)
+            print("pid: ",`pid)
+            print("project_num: ",project_num)
+            print("projid: ",projid)
+            print(projectID_PR[projectID_PR==projid])
+            print(projectID_PR[projectID_PR==projid].index[0])
+            print(project_type[project_num])
+            print(int(project_type[project_num])-1)
+            print(len(project_index))
+            '''
+
             this_proj_type = project_index[int(project_type[project_num])-1]
-            
+
             # Get the Zip code for the project
             if (len(zip_codes[projid==projectID_site])>0):
                 num_for_zip = zip_codes[projid==projectID_site].index[0]
