@@ -181,6 +181,8 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     pidEX = exit_data['PersonalID']
     pidCL=client_data['PersonalID']
             
+    #unames = np.unique(pidEN) 
+
     # Get entry and exit dates from each file.
     entry_date=enrollment_data['EntryDate']
     exit_date=exit_data['ExitDate']
@@ -206,24 +208,38 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     icount = 0
     for pid in personalids:
 
-        if icount%100==0:
+        if icount%1000==0:
             print("Processed %d out of %d Personal IDs - %0.2f minutes" % (icount,npersonalids,(time.time()-start_processing)/60.))
 
         if max_people is not None:
             if icount >= max_people:
                 break
 
-        unames = np.unique(pidEN) 
+        #unames = np.unique(pidEN) 
 
         # Get all Enrollment, Exit and Client indices from each respective file.
         enroll_idx = pidEN==pid 
         exit_idx   = pidEX==pid 
         client_idx = pidCL==pid
 
+        # Check to make sure we can find the client in the Client.csv file. 
+        # If we can't then break and move on. 
+        if len(client_idx[client_idx==True]) == 0:
+            print("\nCannot find %s in Client.csv!" % (pid))
+            print("Skipping and moving on...\n")
+            continue
+
         # Gets the entry dates, exit dates, and DOB for all of the indicies.
         indate = entry_date[enroll_idx] 
         outdate = exit_date[exit_idx] 
         dob_date = client_dob[client_idx]
+        '''
+        print("---------")
+        print(icount,pid)
+        print("client_idx:\n",client_idx[client_idx==True])
+        print("dob_date:\n",dob_date)
+        print("dob_date.values:\n",dob_date.values)
+        '''
         dob_date = str(dob_date.values[0])
         
         # Calculates the age of the individual.
@@ -235,6 +251,7 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
         program_list=[]
         
         # Loop through the entry date, exit date and project ID for each project that an individual has.
+        #print(len(indate))
         for num,(idate, odate, projid) in enumerate(zip(indate, outdate, peid)):
             
             # Get the project type
@@ -243,7 +260,7 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
             '''
             print("---------")
             print("icount: ",icount)
-            print("pid: ",`pid)
+            print("pid: ",pid)
             print("project_num: ",project_num)
             print("projid: ",projid)
             print(projectID_PR[projectID_PR==projid])
