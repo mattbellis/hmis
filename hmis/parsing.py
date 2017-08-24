@@ -6,7 +6,7 @@ import datetime as dt
 from datetime import timedelta, datetime
 import pickle
 import matplotlib.pyplot as plt
-from hmis.general import calc_age
+from hmis.general import calc_age,get_date_from_string
 import time
 
 
@@ -195,7 +195,6 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     # Get info from client file.
     client_dob= client_data['DOB']
     
-    
     # Get site zip codes.
     zip_codes=site_data['ZIP']
     projectID_site=site_data['ProjectID']  
@@ -230,20 +229,12 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
             continue
 
         # Gets the entry dates, exit dates, and DOB for all of the indicies.
+        # Save them as datetime.datetime objects
         indate = entry_date[enroll_idx] 
         outdate = exit_date[exit_idx] 
+
         dob_date = client_dob[client_idx]
-        '''
-        print("---------")
-        print(icount,pid)
-        print("client_idx:\n",client_idx[client_idx==True])
-        print("dob_date:\n",dob_date)
-        print("dob_date.values:\n",dob_date.values)
-        '''
-        dob_date = str(dob_date.values[0])
-        
-        # Calculates the age of the individual.
-        #dob = calc_age(str(dob_date.values[0]))
+        dob_date = get_date_from_string(str(dob_date.values[0]))
         
         # Get the Project IDs 
         peid = projectID_EN[enroll_idx]  
@@ -283,39 +274,18 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
             thisoutdate = outdate[outdate.index[num]]
             
             # If there is an exit date split the date: else, use today's date as the end date.
+            end = None
             if len(thisoutdate)>0:
-                
-                if thisoutdate.find('/')>=0:
-                    month,day,year = thisoutdate.split('/')
-                elif thisoutdate.find('-')>=0:
-                    year,month,day = thisoutdate.split('-')
-                else:
-                    print("Can't recognize date format...")
-                    print(thisoutdate)
-                    exit(-1)
-                
+                end = get_date_from_string(thisoutdate)
             else:
-                now = datetime.now()
-                year,month,day = now.year, now.month, now.day
+                end = datetime.now()
 
-            end = dt.datetime(int(year),int(month),int(day))
+            start = get_date_from_string(thisindate)
             
-            if thisindate.find('/')>=0:
-                month,day,year = thisindate.split('/')
-            elif thisindate.find('-')>=0:
-                year,month,day = thisindate.split('-')
-            else:
-                print("Can't recognize date format...")
-                print(thisindate)
-                exit(-1)
-            
-
-
-            start = dt.datetime(int(year),int(month),int(day))
-
             los=(end-start)
 
-            program_list.append({'Admission date': thisindate, 'Discharge date':thisoutdate, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
+            program_list.append({'Admission date': start, 'Discharge date':end, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
+            
             
         individuals.append({'Personal ID':pid, 'DOB': dob_date,'Programs':program_list})
 

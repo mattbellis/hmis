@@ -4,14 +4,11 @@ import pandas as pd
 import numpy 
 from pandas.util.testing import assert_series_equal, assert_frame_equal
 
-
-directory = '~/Documents/hmis_data_copy'
-filename = 'save_dicts_June16.pkl'
-
+filename = 'test_data/hmis_test_data.pkl'
 
 def test_read_in_data():
 
-    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = directory)
+    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = 'test_data')
 
 
     assert isinstance(enrollment_data, pd.DataFrame)
@@ -34,11 +31,11 @@ def test_read_in_data():
 
 def test_get_pids():
     
-    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = directory)
+    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = 'test_data')
     personalids = hmis.get_pids(enrollment_data)
     
     assert isinstance(personalids, numpy.ndarray)
-    assert len(personalids) == 99
+    assert len(personalids) == 11
 
 
         
@@ -46,9 +43,9 @@ def test_get_pids():
         
         
 def test_create_dictionary_list():
-    inds = hmis.create_dictionary_list(directory=directory)
+    inds = hmis.create_dictionary_list(directory='test_data')
     assert isinstance(inds, list)
-    assert len(inds) == 99
+    assert len(inds) == 10
     
     
     
@@ -56,14 +53,14 @@ def test_create_dictionary_list():
         
 def test_save_file():
     
-    inds = hmis.create_dictionary_list(directory=directory)
+    inds = hmis.create_dictionary_list(directory='test_data')
     hmis.save_file(inds, filename)
     
     
     people_list = hmis.read_dictionary_file(filename)
     
     assert isinstance(people_list, list)
-    assert (people_list[10]['Personal ID'] == '110380741')
+    assert (people_list[2]['Personal ID'] == '226828041')
 
         
         

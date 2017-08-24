@@ -2,7 +2,7 @@ import hmis
 import folium
 
 
-filename = 'save_dicts_June16.pkl'
+filename = 'test_data/hmis_test_data.pkl'
 master_dictionary = hmis.read_dictionary_file(filename)
 
 def test_get_plotting_style():

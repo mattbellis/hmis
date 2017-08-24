@@ -1,10 +1,11 @@
 import numpy as np
 from hmis.general import calc_age
+from datetime import datetime
 
 ################################################################################
 # Gets IDs within a certain age range.
 ################################################################################
-def select_by_age(master_dictionary,lo=0, hi=1e9):
+def select_by_age(master_dictionary,lo=0, hi=1e9, date_to_calc_age=None):
     """ 
     This function returns the dictionaries of the individuals within the age range. 
     
@@ -22,11 +23,19 @@ def select_by_age(master_dictionary,lo=0, hi=1e9):
         
     """
     
+    # Put the date_to_calc_age into a datetime.datetime object
+    if date_to_calc_age is not None:
+        if type(date_to_calc_age) == str:
+            date_to_calc_age = get_date_from_string(date_to_calc_age)
+    else:
+        date_to_calc_age = datetime.now()
+
     # Gets the personal IDs within the age range specified. 
     personal_IDs=[]
     
     for num,ind in enumerate(master_dictionary):
-        age = calc_age(ind['DOB'])
+        age = calc_age(ind['DOB'],date_to_calc_age)
+        age = age.days/365.0 # Convert to years as float
         if age>=lo and age<=hi:
             personal_IDs.append(ind['Personal ID'])
     personal_IDs=np.unique(personal_IDs)

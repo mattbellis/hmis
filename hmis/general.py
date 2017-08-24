@@ -3,30 +3,38 @@ from datetime import timedelta, datetime
 import pandas as pd
 from geopy.geocoders import Nominatim
 import collections
+import numpy as np
 
 
 ################################################################################
 # Get age from birthdate.
 ################################################################################
-def calc_age(birthdate, admission_date = 0):
+def calc_age(birthdate, date_to_calc_age=None):
     """ This function calculates the age of an individual using their birthdate.
     
     Args:
-        **birthdate** (string): The birthday of the individual.
+        **birthdate** (datetime.datetime): The birthday of the individual.
+            
+        **age_at_date** (datetime.datetime or string): The date on which you want to know the individual's age. 
             
     Returns:
         **age** (int): The age of the individual.
     
     
     """
+    '''
     birth_year,birth_month,birth_day = birthdate.split('-')
     born = dt.datetime(int(birth_year),int(birth_month),int(birth_day))
-    if admission_date !=0:
-        today = get_date_from_string(admission_date)
+    '''
+
+    # Put the date_to_calc_age into a datetime.datetime object
+    if date_to_calc_age is not None:
+        if type(date_to_calc_age) == str:
+            date_to_calc_age = get_date_from_string(date_to_calc_age)
     else:
-        today = datetime.now()
+        date_to_calc_age = datetime.now()
     
-    age= today.year-born.year - ((today.month,today.day) < (born.month, born.day))
+    age = date_to_calc_age - birthdate
 
     return age
 
@@ -46,7 +54,12 @@ def get_date_from_string(datestring):
         
     """
     
-    date=pd.to_datetime(datestring)
+    date = pd.to_datetime(datestring)
+
+    # Convert to datetime.datetime object for more standard
+    # manipulation
+    date = date.to_pydatetime()
+
     return date
 
 
@@ -89,6 +102,9 @@ def pretty_print(inds, dump_all=False):
         
     """
 
+    #dateformat = "%Y-%m-%d"
+    dateformat = "%m/%d/%Y"
+
     # Make sure inds is a list.
     if type(inds)==dict:
         inds = [inds]
@@ -96,7 +112,7 @@ def pretty_print(inds, dump_all=False):
     for ind in inds: 
         print("================================")
         print((ind['Personal ID']))
-        print((ind['DOB']))
+        print((ind['DOB']).strftime(dateformat))
         
         if ind['Programs'] != list:
             
@@ -112,17 +128,20 @@ def pretty_print(inds, dump_all=False):
                 # Adds only the values of all the programs.        
                 else:
                     output += "%-35s " % (program["Project type"])
-                    output += "%s: %-10s - %-10s " % ("In/Out",program["Admission date"], program["Discharge date"])
+                    output += "%s: %-10s - %-10s " % ("In/Out",program["Admission date"].strftime(dateformat), program["Discharge date"].strftime(dateformat))
                     output += "(%s days) " % (program["Length of stay"].days)
                     output += "\t Zip code: %s" % (program['Project Zip Code'])
 
                 print(output)
+
+    return 1 # For success
 
 ################################################################################
 ################################################################################
 
 def calc_average_age_by_year(ppl):
     """ Calculates the average age split up by year. The years are split up from 2013, 2014, 2015, 2016 and earlier than 2013. 
+    This is primarily an example of how a semi-standard analysis could be added to the libraries in this hmis module. 
     
     Args:
         **ppl** (list): The list of dictionaries of the individuals to be analyzed.
@@ -140,6 +159,8 @@ def calc_average_age_by_year(ppl):
     age2015 =[]
     age2016=[]
 
+    years = ["before 2013","2013","2014","2015","2016"]
+
 
     for person in ppl:
 
@@ -148,45 +169,36 @@ def calc_average_age_by_year(ppl):
             
             if (get_date_from_string(ad_date)).year == 2013:
                 age = calc_age(person['DOB'], program['Admission date'])
-                age2013.append(age)
+                age2013.append(age.days/365.0)
 
             elif (get_date_from_string(ad_date)).year == 2014:
                 age = calc_age(person['DOB'], program['Admission date'])
-                age2014.append(age)
+                age2014.append(age.days/365.0)
                 
             elif (get_date_from_string(ad_date)).year == 2015:
                 age = calc_age(person['DOB'], program['Admission date'])
-                age2015.append(age)
+                age2015.append(age.days/365.0)
                 
             elif (get_date_from_string(ad_date)).year == 2016:
                 age = calc_age(person['DOB'], program['Admission date'])
-                age2016.append(age)
+                age2016.append(age.days/365.0)
                 
             else:
                 age = calc_age(person['DOB'], program['Admission date'])
-                age_earlier.append(age)
-               
-
+                age_earlier.append(age.days/365.0)
                 
           
-    average_age_earlier = sum(age_earlier)/len(age_earlier)
-    print("Average age for all years before 2013: %i " % average_age_earlier)
+    age_list = [age_earlier, age2013, age2014, age2015, age2016]
+
+    for age,year in zip(age_list,years):
+
+        if len(age)>0:
+            ave_age = np.mean(age)
+            print("Average age   for %-12s: %4.2f " % (year,ave_age))
+        else:
+            print("No indviduals for %-12s" % (year))
     
-    average_age2013 = sum(age2013)/len(age2013)
-    print("Average age for the year 2013: %i " % average_age2013)
-
-    average_age2014 = sum(age2014)/len(age2014)
-    print("Average age for the year 2014: %i " % average_age2014)
-
-    average_age2015 = sum(age2015)/len(age2015)
-    print("Average age for the year 2015: %i " % average_age2015)
-
-    average_age2016 = sum(age2016)/len(age2016)
-    print("Average age for the year 2016: %i " % average_age2016)
-    
-    average_age_list = [age_earlier, age2013, age2014, age2015, age2016]
-
-    return average_age_list
+    return age_list
     
 
 
@@ -196,64 +208,3 @@ def calc_average_age_by_year(ppl):
 
 ################################################################################
 ################################################################################
-
-def organize_ages_by_admission_dates(ppl):
-    """ Organizes the ages in a dictionary depending on when they entered the program. The years are split up from 2013, 2014, 2015, 2016 and earlier than 2013. 
-    
-    Args:
-        **ppl** (list): The list of dictionaries of the individuals to be analyzed.
-        
-        
-    Return:    
-        **yeah_dictionary** (dict): The dictionaries of the ages of individuals for the appropriate year they entered a specific program.
-
-    """
-
-
-    year_dictionary = {}
-    
-    # Loop through each individual
-    for person in ppl:
-
-        # Loop through each program of each individual
-        for program in person['Programs']:
-            ad_date = program['Admission date']
-            
-            if get_date_from_string(ad_date).year in year_dictionary:
-                year_dictionary[get_date_from_string(ad_date).year].append(calc_age(person['DOB'], program['Admission date']))
-            else:
-                year_dictionary[get_date_from_string(ad_date).year] = [calc_age(person['DOB'], program['Admission date'])]
-
-    # Sort the years in order
-    year_dictionary = collections.OrderedDict(sorted(year_dictionary.items()))
-    return year_dictionary
-
-
-
-
-def print_average_ages(year_dictionary):
-    """ Prints the average age for each year that someone has visited a program. 
-    
-    Args:
-        **year_dictionary** (dict): The dictionaries of the ages of individuals for the appropriate year they entered a specific program.
-
-    """
-    
-    
-    for year in year_dictionary:
-        print("Average age for the year %i : %i " % (year, sum(year_dictionary[year])/len(year_dictionary[year] )))
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        

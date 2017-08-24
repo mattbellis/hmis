@@ -40,6 +40,7 @@ This module contains a suite of python functions to allow for analysis and visua
 We have developed these tools to work with the standard HMIS data dump in the RHY (Runaway and Homeless Youth) data format, that produces 12 .csv files in which personal identifying information is de-identified through a hashing algorithm. 
 Because of this standardization, any other tools that leverage this software package can be used by similar networks across the country.
 
+The definitions of the information in the HMIS data can be found [on HUD's website](https://www.hudexchange.info/programs/hmis/). This unit tests make use of definitions as of 2017. 
 
 
 # References
