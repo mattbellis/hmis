@@ -42,5 +42,11 @@ Because of this standardization, any other tools that leverage this software pac
 
 The definitions of the information in the HMIS data can be found [on HUD's website](https://www.hudexchange.info/programs/hmis/). This unit tests make use of definitions as of 2017. 
 
+This software project started thanks to the help and assistance from members of [CARES NY](http://caresny.org/),
+a group committed to ending homelessness and who applies for grants from HUD and administers them with
+partners across the CoC. We would like to particularly acknowledge CARES members, Maureen Burns, 
+Terry O'Brien, and Allyson Thiessen, who explained to us the need for tools like this and the data
+formats themselves.
+We also acknowledge members of the Siena College community, Ruth Kassel and Paul Thurston, for the initial connects with CARES, and their strong and continued support of this project.
 
 # References
