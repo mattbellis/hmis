@@ -1,0 +1,5 @@
+EmploymentEducationID,ProjectEntryID,PersonalID,InformationDate,LastGradeCompleted,SchoolStatus,Employed,EmploymentType,NotEmployedReason,DataCollectionStage,DateCreated,DateUpdated,UserID,DateDeleted,ExportID
+"4829141","482914","116604541",2015-07-30,4,,,,,1,2015-07-30 00:00:00,2015-07-30 00:00:00,"unknown",,"07b03329aa52a37ba6f97b0157f4279c"
+"4829111","482911","116605041",2015-07-30,5,,,,,1,2015-07-30 00:00:00,2015-07-30 00:00:00,"unknown",,"07b03329aa52a37ba6f97b0157f4279c"
+"5523061","552306","226828041",2016-11-01,11,,,,,1,2016-11-01 00:00:00,2016-11-01 00:00:00,"unknown",,"07b03329aa52a37ba6f97b0157f4279c"
+"5523101","552310","226830041",2016-11-01,1,,,,,1,2016-11-01 00:00:00,2016-11-01 00:00:00,"unknown",,"07b03329aa52a37ba6f97b0157f4279c"

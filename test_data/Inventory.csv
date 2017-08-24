@@ -1,0 +1,4 @@
+InventoryID,ProjectID,CoCCode,InformationDate,HouseholdType,BedType,Availability,UnitInventory,BedInventory,CHBedInventory,VetBedInventory,YouthBedInventory,YouthAgeGroup,InventoryStartDate,InventoryEndDate,HMISParticipatingBeds,DateCreated,DateUpdated,UserID,DateDeleted,ExportID
+"dab3a91c8a0e023b603a945f827c4b1a","72732241","NY-000",2016-10-18,,1,1,25,27,0,0,0,,2004-01-01,,27,2013-06-03 00:00:00,2016-10-18 14:26:57,"Kelli Clark",,"07b03329aa52a37ba6f97b0157f4279c"
+"834e3e6ef7ed94ccba4fec0eb574d1d8","72732241","NY-000",2016-10-18,3,1,1,1,3,0,0,0,,2004-01-01,,3,2013-06-03 00:00:00,2016-10-18 14:26:57,"Kelli Clark",,"07b03329aa52a37ba6f97b0157f4279c"
+"500d00c1398a15fe4d60284fed2ca126","72732241","NY-000",2016-10-18,1,1,1,2,2,0,0,0,,2004-01-01,,2,2013-06-03 00:00:00,2016-10-18 14:26:57,"Kelli Clark",,"07b03329aa52a37ba6f97b0157f4279c"
