@@ -1,5 +1,5 @@
 ---
-title: 'hmis python- A Python tool to visualize and analyze HMIS data'
+title: 'hmis: A Python tool to visualize and analyze HMIS data'
 tags:
   - python
   - hmis
