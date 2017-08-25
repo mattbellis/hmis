@@ -19,19 +19,19 @@ elif sys.version_info < (3, 6):
 
 setup(
     name='hmis',
-    version="0.9",
+    version="1.0",
     #cmdclass="0.9", # Is this right???
     description='Parsing and visualization tools for the HUD-mandated HMIS data format for homelessness data collection.',
     url='https://github.com/mattbellis/hmis',
-    author='Matt Bellis and Sara Mahar',
+    author='Sara Mahar and Matt Bellis',
     author_email='mbellis@siena.edu',
     license='MIT',
     packages = ['hmis'],
     #install_requires = requirements,
     #tests_require = ['pytest', 'pytest-cov'],
-    classifiers=[ # HAVE TO FIX ALL THIS
+    classifiers=[ 
         'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
+        'Intended Audience :: Users',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: MIT License',
         'License :: Public Domain',

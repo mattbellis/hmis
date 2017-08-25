@@ -210,7 +210,10 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
     if plotly ==True:
         iplot(program_list)
 
-        
+
+################################################################################
+# Displays markers associated with zip codes on folium maps. 
+################################################################################
 def plot_program_locations(dictionaries, cluster= True, exploded=False):
     """ This function plots all of the program's zip codes with the folium package.
     
