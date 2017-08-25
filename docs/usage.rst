@@ -5,6 +5,10 @@
 Here we walk you through the steps to start analyzing hmis data in a
 python/Jupyter environment. 
 
+Note that in the ``scripts_and_examples`` subdirectory, there are some
+Jupyter notebooks that walk you through some simple selection and visualization
+examples. 
+
 Create primary dictionary file
 ------------------------------
 
