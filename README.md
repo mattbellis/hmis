@@ -1,16 +1,10 @@
 # hmis
 A set of Python tools to parse files from a standard dump of HMIS (Homeless Management Information System) data and do some simple analysis and visualization.
 
+hmis is written in python and developed by Sara Mahar (now at the University of San Francisco) and Matthew Bellis at Siena College. 
 
-hmis-python is written in python and developed by Sara Mahar and Matthew Bellis at Siena College. 
+More complete documentation can be found at [readthedocs](http://hmis.readthedocs.io/en/latest/).
 
-See the hmis-python repository and readthedocs for further information.
-
-
-
-# Install
-
-Install the latest version (from GitHub): `pip install git+git://github.com/rasbt/biopandas.git#egg=biopandas`
 
 
 
@@ -21,6 +15,16 @@ Install the latest version (from GitHub): `pip install git+git://github.com/rasb
 * Pandas >= 0.19.1
 * Folium >= 0.3.0
 * Geopy >= 1.10.0
+
+# Install
+
+Install the latest version from Github.
+
+    git clone git@github.com:mattbellis/hmis.git
+    cd hmis
+    python setup.py install
+
+
 
 
 # Usage
@@ -35,11 +39,9 @@ import hmis
 
 people = hmis.read_dictionary_file('save_dicts_June13.pkl')
 
-people_selected_by_age = hmis.select_by_age(people,lo=1,hi=5)
+subset = hmis.select_by_age(people,lo=1,hi=5)
 
-map1 =hmis.plot_program_locations(people_selected_by_age, cluster=True, exploded=True)
-
-map1
+hmis.pretty_print(subset)
 
 ```
 
