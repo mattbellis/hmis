@@ -1,5 +1,5 @@
 # hmis
-A set of Python tools to parse files from a standard dump of HMIS (Homeless Management Information System) data and do some simple analysis and visualization.
+A set of Python tools to parse files from a standard dump of [HMIS (Homeless Management Information System)](https://www.hudexchange.info/resource/3824/hmis-data-dictionary/) data and do some simple analysis and visualization.
 
 hmis is written in python and developed by Sara Mahar (now at the University of San Francisco) and Matthew Bellis at Siena College. 
 
