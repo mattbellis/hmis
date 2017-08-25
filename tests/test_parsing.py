@@ -8,7 +8,14 @@ filename = 'test_data/hmis_test_data.pkl'
 
 def test_read_in_data():
 
-    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = 'test_data')
+    #enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = 'test_data')
+    org_data = hmis.read_in_data(directory='test_data')
+    enrollment_data = org_data["Enrollment"]
+    exit_data = org_data["Exit"]
+    project_data = org_data["Project"]
+    client_data = org_data["Client"]
+    site_data = org_data["Site"]
+
 
 
     assert isinstance(enrollment_data, pd.DataFrame)
@@ -31,7 +38,9 @@ def test_read_in_data():
 
 def test_get_pids():
     
-    enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = 'test_data')
+    #enrollment_data, exit_data, project_data, client_data, site_data = hmis.read_in_data(directory = 'test_data')
+    org_data = hmis.read_in_data(directory='test_data')
+    enrollment_data = org_data["Enrollment"]
     personalids = hmis.get_pids(enrollment_data)
     
     assert isinstance(personalids, numpy.ndarray)

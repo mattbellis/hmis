@@ -80,6 +80,9 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
         *Defaults to False.*
         
     Returns:
+
+        **A dictionary containing the following pieces of information, with keys referenced by the original file names (e.g. Enrollment.csv --> Enrollment)**
+
         **enrollment_data** (Data Frame): All of the information from the enrollment file.
         
         **exit_data** (Data Frame): All of the information from the exit file.
@@ -124,7 +127,14 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
         elif i==4:
             site_data=pd.read_csv(fullpath,delimiter=',',dtype=str)
 
-    return enrollment_data, exit_data, project_data, client_data, site_data
+    # Put original data into one large dictionary
+    org_data = {} 
+    all_files = [enrollment_data, exit_data, project_data, client_data, site_data]
+    for f,a in zip(filenames,all_files):
+        key = f.split('.')[0]
+        org_data[key] = a
+
+    return org_data
 
 
 
@@ -154,12 +164,16 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     """
     print(directory)
     # Read in all of the given HMIS files.
-    enrollment_data,exit_data,project_data,client_data,site_data = read_in_data(directory=directory,verbose=True)
+    org_data = read_in_data(directory=directory,verbose=True)
+    enrollment_data = org_data["Enrollment"]
+    exit_data = org_data["Exit"]
+    project_data = org_data["Project"]
+    client_data = org_data["Client"]
+    site_data = org_data["Site"]
     
     # Get all of the personal IDs from the enrollment file.
     personalids = get_pids(enrollment_data)
     
-
     # If the personal ID is not a list make it a list of one variable
     if type(personalids) != list and type(personalids) != np.ndarray:
         personalids = [personalids]
@@ -238,12 +252,13 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
         
         # Get the Project IDs 
         peid = projectID_EN[enroll_idx]  
+        projentryid = project_entry_ID_EN[enroll_idx]
         
         program_list=[]
         
         # Loop through the entry date, exit date and project ID for each project that an individual has.
         #print(len(indate))
-        for num,(idate, odate, projid) in enumerate(zip(indate, outdate, peid)):
+        for num,(idate, odate, projid,projenid) in enumerate(zip(indate, outdate, peid, projentryid)):
             
             # Get the project type
             project_num = projectID_PR[projectID_PR==projid].index[0]
@@ -284,7 +299,7 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
             
             los=(end-start)
 
-            program_list.append({'Admission date': start, 'Discharge date':end, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip})
+            program_list.append({'Admission date': start, 'Discharge date':end, 'Length of stay':los, 'Project type': this_proj_type, 'Project Zip Code':this_zip, 'Project ID':projid, 'Project Entry ID':projenid})
             
             
         individuals.append({'Personal ID':pid, 'DOB': dob_date,'Programs':program_list})
@@ -333,26 +348,6 @@ def read_dictionary_file(filename):
     dictionary_list = pickle.load(infile)
     
     return dictionary_list
-
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -146,4 +146,140 @@ def select_by_program_type(master_dictionary, prog_type):
     return dictionary_subset
     
     
+################################################################################
+# Get information from the original data
+################################################################################
+def get_additional_info(IDs,idtype='Personal',org_data=None,info=None):
+    """ This function gets additional information on an individual,
+    project, or an indiviuals entry into a project based on their PersonalID,
+    ProjectID, or ProjectEntryID respectively.
+    
+    Args:
+        **IDs** (list or string): The list of IDs as strings or a single ID.
+        
+        **idtype** (string): 'Personal' or 'Project' or 'ProjectEntry' which 
+        tells the program what type of data to retrieve.
+
+        **org_data**: (dictionary of Panda data frames) This is the output of the 
+        read_in_data command. 
+
+        **info** (list or string): This is a string or list of strings, where
+        the strings are the headers of the Pandas dataframes and the information
+        to be returned. 
+
+    Return:
+        **information** (dictionary) This is a dictionary with the keys representing
+        the IDs passed in and the values are dictionaries with those keys being
+        the different pieces of information passed in with the info variable. 
+
+     """
+
+    # Error checking
+    if idtype != 'Personal' and idtype != 'Project' and idtype != 'ProjectEntry':
+        print("type must be \'Personal\' or \'Project\' or \'ProjectEntry\'!!!")
+        print("Instead, idtype is %s" % (idtype))
+        print("Returning from get_additional_info() without doing anything")
+        return None
+
+    if org_data is None:
+        print("org_data must be passed in!")
+        print("Instead, org_data is %s" % (org_data))
+        print("This is the original data as returned by the read_in_data() function")
+        print("Returning from get_additional_info() without doing anything")
+        return None
+
+    if info is None:
+        print("info must be passed in!")
+        print("Instead, info is %s" % (info))
+        print("This should be a header or headers (as a list) for the original files.")
+        print("Returning from get_additional_info() without doing anything")
+        return None
+
+
+    # Get the list of original .csv files from which we'll look for this info. 
+    # We can add to this list later, if there is interest.
+    list_of_files = []
+    idkey = "%sID" % (idtype)
+    if idtype=='Personal':
+        list_of_files.append('Client')
+    elif idtype=='ProjectEntry':
+        list_of_files.append('Enrollment')
+        list_of_files.append('Exit')
+    elif idtype=='Project':
+        list_of_files.append('Site')
+        list_of_files.append('Project')
+
+    if type(IDs)==str:
+        IDs = [IDs]
+
+    if type(info)==str:
+        info = [info]
+
+    # Check that the info keys are actually in the headers, including the idkey
+    # which will be PersonalID or ProjectID or ProjectEntry.
+    for header in info + [idkey]:
+
+        found_header = False
+        for name in list_of_files:
+
+            # List of headers from dataframe
+            headers = list(org_data[name].columns.values)
+
+            if header in headers:
+                found_header = True
+                break
+
+        if found_header==False:
+            print("%s not found in any of the headers in the files!" % (header))
+            print("Returning from get_additional_info() without doing anything")
+            return None
+
+    values = {}
+
+    for ID in IDs:
+
+        # For the person or project
+        values[ID] = {}
+
+        for header in info:
+
+            # Loop over the different files in which to look.
+            for name in list_of_files:
+                filedata = org_data[name]
+                # We are going to assume that the ID only appears once!
+                index = filedata[filedata[idkey] == ID].index.tolist()
+
+                if len(index)==1:
+                    index = index[0]
+                elif len(index)==0:
+                    break
+                else:
+                    print("%s appears more than once in the %s file!!!" % (header, name))
+                    print("Using only the first appearence, but this might not be right!")
+                    index = index[0]
+
+                if header in list(filedata.columns.values):
+                    value = filedata.iloc[index][header] 
+                    if value != value:
+                        value = "EMPTY"
+                    values[ID][header] = value
+
+    return values
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

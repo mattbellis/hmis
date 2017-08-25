@@ -151,6 +151,70 @@ Additionally, you can select individuals from ``data`` that have been to at leas
     >>> num_of_programs = 27
     >>> selected_people = hmis.select_by_number_of_programs(data,num_of_programs)
 
+Get additional information about individuals and projects
+---------------------------------------------------------
+
+The file that is created by the ``build_dictionary_file.py`` script is relatively lightweight
+and does not contain all the information from the full HMIS data dump. However, analysts 
+might want to access this and can by accessing the original data in the .csv files. 
+The five of most interest, (``'Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv'``)
+can be returned as a dictionary file, indexed by the names (minus the *.csv*) of each
+of the files. 
+
+.. doctest::
+    
+    >>> alldata = hmis.read_in_data(directory='../test_data')
+    >>> print(alldata.keys())
+
+    dict_keys(['Enrollment', 'Exit', 'Project', 'Client', 'Site'])
+
+
+Each value associated with a key in ``alldata`` is a Pandas dataframe, containing
+all the information read in from the .csv files from the HMIS data dump. 
+We provide simple accessor functions to pull out information on an individual
+using their *PersonalID*, a project using its *ProjectID* or a specific instance
+of a person entering a support project using the *ProjectEntryID*. 
+
+The user passes in the ID of choice along with the information that is asked for. 
+Users should familiarize themselves with what is accessible by referencing
+the `HMIS data format <https://www.hudexchange.info/programs/hmis/>`_.
+
+.. doctest::
+    
+    >>> vals = hmis.get_additional_info('230978041',idtype='Personal',org_data=alldata,info='WorldWarII')
+    >>> print(vals)
+
+    {'230978041': {'WorldWarII': 'EMPTY'}}
+
+.. doctest::
+    
+    >>> vals = hmis.get_additional_info('230978041',idtype='Personal',org_data=alldata,info=['Gender','Ethnicity','WorldWarII'])
+    >>> print(vals)
+
+    {'230978041': {'Gender': '0', 'Ethnicity': '0', 'WorldWarII': 'EMPTY'}}
+
+.. doctest::
+    
+    >>> vals = hmis.get_additional_info('552310',idtype='ProjectEntry',org_data=alldata,info=['HouseholdID','RelationshipToHoH','ResidencePrior'])
+    >>> print(vals)
+    {'552310': {'HouseholdID': '230282', 'RelationshipToHoH': '2', 'ResidencePrior': 'EMPTY'}}
+
+.. doctest::
+    
+    >>> vals = hmis.get_additional_info('72732241',idtype='Project',org_data=alldata,info=['Address','ProjectName'])
+    >>> print(vals)
+
+    {'72732241': {'Address': '1313 Mockingbird Lane Nowhere NY 99999', 'ProjectName': 'Training Emergency Shelter'}}
+
+.. doctest::
+    
+    >>> vals = hmis.get_additional_info(['567519','561729'],idtype='ProjectEntry',org_data=alldata,info=['MonthsHomelessPastThreeYears'])
+    >>> print(vals)
+
+    {'567519': {'MonthsHomelessPastThreeYears': '101'}, '561729': {'MonthsHomelessPastThreeYears': '110'}}
+
+
+
 
 Visualize time-series plots
 ---------------------------
@@ -183,9 +247,7 @@ From the ``selected_people``, you can plot their time-series plots:
 
 You can also add an additional argument and value ``plotly=True`` to use the plotly plotting module. 
 
-    
-    
-    
+
 Visualize program locations
 ----------------------------
 

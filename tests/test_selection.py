@@ -60,7 +60,28 @@ def test_select_by_program_type():
         assert isinstance(person, dict)
     
     
-    
+def test_get_additional_info():
+
+    alldata = hmis.read_in_data(directory='test_data')
+
+    vals = hmis.get_additional_info('230978041',idtype='Personal',org_data=alldata,info='WorldWarII')
+    assert isinstance(vals,dict)
+    assert isinstance(vals['230978041'],dict)
+    assert vals['230978041']['WorldWarII'] == 'EMPTY'
+
+    vals = hmis.get_additional_info('230978041',idtype='Personal',org_data=alldata,info=['Gender','Ethnicity','WorldWarII'])
+    assert isinstance(vals,dict)
+    assert vals['230978041']['Gender'] == '0'
+
+    vals = hmis.get_additional_info('552310',idtype='ProjectEntry',org_data=alldata,info=['HouseholdID','RelationshipToHoH','ResidencePrior'])
+    assert isinstance(vals,dict)
+    assert vals['552310']['RelationshipToHoH'] == '2'
+
+    vals = hmis.get_additional_info(['567519','561729'],idtype='ProjectEntry',org_data=alldata,info=['MonthsHomelessPastThreeYears'])
+    assert isinstance(vals,dict)
+    assert vals['567519']['MonthsHomelessPastThreeYears'] == '101'
+    assert vals['561729']['MonthsHomelessPastThreeYears'] == '110'
+
     
     
     
