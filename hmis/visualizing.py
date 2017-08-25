@@ -211,16 +211,6 @@ def plot_time_series(inds, image_name=None, exploded_view=False, plotly=False):
         iplot(program_list)
 
     
-    
-    
-    
-    
-
-    
-
-        
-        
-        
 def plot_program_locations(dictionaries, cluster= True, exploded=False):
     """ This function plots all of the program's zip codes with the folium package.
     
@@ -231,6 +221,10 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
         **map1** (Map): The map to be displayed in a Jupyter notebook.
 
     """
+
+    # If there is only one individual, make their dictionary a list with one item.
+    if type(dictionaries) != list:
+        dictionaries = [dictionaries]
 
     prog_name = []
     if (exploded == True):
@@ -284,7 +278,7 @@ def plot_program_locations(dictionaries, cluster= True, exploded=False):
             if exploded == True:
                 html = " %s " % (prog_name[num])
             else:
-                html = " %s <br>%i <br> unique individuals: %i" % (zip_codes[zipc][1],zip_codes[zipc][0],upeople)
+                html = " %s <br>Num stays: %i <br>" % (zip_codes[zipc][1],zip_codes[zipc][0])
             
 
             iframe = folium.IFrame(html=html, width=200, height=80)

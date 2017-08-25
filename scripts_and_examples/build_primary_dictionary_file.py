@@ -6,12 +6,8 @@ tag = ""
 if len(sys.argv)>1:
     tag = "_%s" % (sys.argv[1])
 
-# Location of the 12 files from the HMIS data dump.
-#hmis_data_location = '~/Documents/hmis_data'
-#hmis_data_location = '~/hmis_data'
-#hmis_data_location = '~/hmis_fake_data'
-#hmis_data_location = '~/hmis_data/big_dataset/ANONYMIZED_MORE'
-hmis_data_location = '~/ANONYMIZED_MORE'
+# Location of the 11 files from the HMIS data dump.
+hmis_data_location = '../test_data/'
 start=time.time()
 
 # Put together a dictionary of all the individuals in the HMIS
@@ -23,8 +19,7 @@ inds = hmis.create_dictionary_list(directory=hmis_data_location)
 
 # Write this dictionary to a pickled file.
 print("Writing pickle file...")
-#outfilename = "hmis_test_data%s.pkl" % (tag)
-outfilename = "CARESNY_data%s.pkl" % (tag)
+outfilename = "hmis_data%s.pkl" % (tag)
 hmis.save_file(inds, outfilename)
 
 
