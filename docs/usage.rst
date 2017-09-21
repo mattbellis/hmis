@@ -32,7 +32,8 @@ This creates an output file
 The script is set up by default to look in ``hmis/test_data`` for the .csv files.
 This repository provides a very small sample of *fake* HMIS data for the 
 unit tests. There is also a sample pickle file includes (in case you don't want to 
-build your own for testing) called ``hmis_test_data.pkl``.
+build your own for testing) called ``hmis_test_data.pkl``
+(there is also a pickle file created for python 2.7 users called ``hmis_test_data_py27.pkl``).
 In both cases, the identifier for individuals ``Personal ID`` has been 
 hashed and anonymized.
 
@@ -74,7 +75,8 @@ Once you have made your pickle file of the data dump, you can read it.
 
 In the following example, ``data`` is a list of dictionaries. 
 Note that ``hmis_data.pkl`` is the file you created, but if you want, you 
-can use the sample file included in this repo, ``hmis_test_data.pkl``.
+can use the sample file included in this repo, ``hmis_test_data.pkl``
+(or ``hmis_test_data_py27.pkl`` if you use python 2.7).
 
 .. doctest::
 

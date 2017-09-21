@@ -350,8 +350,9 @@ def read_dictionary_file(filename):
     except ValueError:
         print("ValueError when opening input file\n")
         print("This is most likely caused by the file being pickled with a higher protocol in Python3.x and then trying to open it with a lower protocol in 2.7.\n")
-        print("You will want to recreate the file using the same version of python as the one you are using to open it.")
-        exit()
+        print("You will want to recreate the file using the same version of python as the one you are using to open it.\n")
+        print("File is not read in!")
+        return None
         
     
     return dictionary_list

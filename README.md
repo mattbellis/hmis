@@ -40,7 +40,13 @@ This repository also contains a [Jupyter Notebook](https://jupyter.readthedocs.i
 import hmis
 
 # If you are running this from the hmis directory (not hmis/hmis), 
+# Python 3.5+
 people = hmis.read_dictionary_file('test_data/hmis_test_data.pkl')
+
+# or 
+
+# Python 2.7
+#people = hmis.read_dictionary_file('test_data/hmis_test_data_py27.pkl')
 
 subset = hmis.select_by_age(people,lo=10,hi=50)
 
