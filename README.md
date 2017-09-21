@@ -39,7 +39,8 @@ This repository also contains a [Jupyter Notebook](https://jupyter.readthedocs.i
 ```
 import hmis
 
-people = hmis.read_dictionary_file('save_dicts_June13.pkl')
+# If you are running this from the top hmis directory, 
+people = hmis.read_dictionary_file('test_data/hmis_test_data.pkl')
 
 subset = hmis.select_by_age(people,lo=1,hi=5)
 
