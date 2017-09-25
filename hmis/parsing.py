@@ -347,13 +347,17 @@ def read_dictionary_file(filename):
     infile = open(filename, 'rb')
     try:
         dictionary_list = pickle.load(infile)
-    except ValueError:
-        print("ValueError when opening input file\n")
-        print("This is most likely caused by the file being pickled with a higher protocol in Python3.x and then trying to open it with a lower protocol in 2.7.\n")
-        print("You will want to recreate the file using the same version of python as the one you are using to open it.\n")
-        print("File is not read in!")
-        return None
-        
+    except ValueError as detail:
+        error_string = """%s
+        This is most likely caused by the file being pickled with a higher protocol in Python3.x and then trying to open it with a lower protocol in 2.7.\n
+        You will want to recreate the file using the same version of python as the one you are using to open it.\n
+        File is not read in!""" % detail
+        raise ValueError(error_string)
+    except UnicodeDecodeError as detail:
+        error_string = """%s
+        This is most likely caused by the file being pickled with a lower protocol in Python2.7 and then trying to open it with a higher protocol in 3.x.\n
+        You will want to recreate the file using the same version of python as the one you are using to open it.\n
+        File is not read in!""" % detail
     
     return dictionary_list
 
