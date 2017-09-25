@@ -46,7 +46,7 @@ people = hmis.read_dictionary_file('test_data/hmis_test_data.pkl')
 # or 
 
 # Python 2.7
-#people = hmis.read_dictionary_file('test_data/hmis_test_data_py27.pkl')
+people = hmis.read_dictionary_file('test_data/hmis_test_data_py27.pkl')
 
 subset = hmis.select_by_age(people,lo=10,hi=50)
 
