@@ -18,8 +18,34 @@ authors:
    affiliation: 1
 affiliations:
  - name: Siena College 
-date: 
-bibliography: paper.bib
+
+references:
+
+- id: hmisdsdm2016
+  title: HMIS Data Standards Data Manual
+  author:
+    - family: HUD
+      given: US Department of Housing and Urban Development
+  institution: US Department of Housing and Urban Development
+  URL: 'https://www.hudexchange.info/resources/documents/HMIS-Data-Standards-Manual.pdf'
+  publisher: US Government
+  type: report
+  issued:
+    year: 2016
+
+- id: hmisdd2017
+  title: HMIS Data Standards Data Dictionary
+  author:
+    - family: HUD
+      given: US Department of Housing and Urban Development
+  institution: US Department of Housing and Urban Development
+  URL: 'https://www.hudexchange.info/resource/3824/hmis-data-dictionary/'
+  publisher: US Government
+  type: webpage
+  issued:
+    year: 2017
+
+date: Sept. 2017
 ---
 
 
@@ -40,9 +66,9 @@ This module contains a suite of python functions to allow for analysis and visua
 We have developed these tools to work with the standard HMIS data dump in the RHY (Runaway and Homeless Youth) data format, that produces 12 .csv files in which personal identifying information is de-identified through a hashing algorithm. 
 Because of this standardization, any other tools that leverage this software package can be used by similar networks across the country.
 
-The definitions of the information in the HMIS data can be found [on HUD's website](https://www.hudexchange.info/programs/hmis/). This unit tests make use of definitions as of 2017. 
+The definitions of the information in the HMIS data can be found on HUD's website [@hmisdd2017 ; @hmisdsdm2016].
 
-This software project started thanks to the help and assistance from members of [CARES NY](http://caresny.org/),
+This software project started thanks to the help and assistance from members of CARES NY (http://caresny.org/),
 a group committed to ending homelessness and who applies for grants from HUD and administers them with
 partners across the CoC. We would like to particularly acknowledge CARES members, Maureen Burns, 
 Terry O'Brien, and Allyson Thiessen, who explained to us the need for tools like this and the data
@@ -50,3 +76,4 @@ formats themselves.
 We also acknowledge members of the Siena College community, Ruth Kassel and Paul Thurston, for the initial connects with CARES, and their strong and continued support of this project.
 
 # References
+
