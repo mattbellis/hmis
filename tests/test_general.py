@@ -38,8 +38,8 @@ def test_convert_to_coordinates():
     assert isinstance(lat, float)
     assert isinstance(long, float)
     
-    assert abs(lat-42.7066463925) < 0.0001
-    assert abs(long-(-73.7668615445)) < 0.0001
+    assert abs(lat-42.701752) < 0.01
+    assert abs(long-(-73.7576574)) < 0.001
         
         
         
