@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/mattbellis/hmis.svg?branch=master)](https://travis-ci.org/mattbellis/hmis)
 
+[![DOI](https://zenodo.org/badge/91502190.svg)](https://zenodo.org/badge/latestdoi/91502190)
+
+
 # hmis
 A set of Python tools to parse files from a standard dump of [HMIS (Homeless Management Information System)](https://www.hudexchange.info/resource/3824/hmis-data-dictionary/) data and do some simple analysis and visualization.
 
