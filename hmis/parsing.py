@@ -56,7 +56,8 @@ def get_pids(enrollment_data):
         The Personal ID is used to identify individuals.
     
     """
-    namesEN = enrollment_data['PersonalID']
+    #namesEN = enrollment_data['PersonalID']
+    namesEN = enrollment_data['PIN']
   
     return np.array(namesEN)
 
@@ -144,7 +145,7 @@ def read_in_data(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv'
 ################################################################################
 # Make the large list of dictionaries.
 ################################################################################
-def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=None):
+def create_dictionary_list(directory='~/hmis_data/',filenames=['Enrollment.csv','Exit.csv','Project.csv','Client.csv','Site.csv'],max_people=None):
     """ This function creates a list of all dictionaries in the enrollment file.
     
     Args:
@@ -164,12 +165,14 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     """
     print(directory)
     # Read in all of the given HMIS files.
-    org_data = read_in_data(directory=directory,verbose=True)
+    org_data = read_in_data(directory=directory,filenames=filenames,verbose=True)
     enrollment_data = org_data["Enrollment"]
     exit_data = org_data["Exit"]
     project_data = org_data["Project"]
     client_data = org_data["Client"]
-    site_data = org_data["Site"]
+    #site_data = org_data["Site"]
+    site_data = org_data["Geography"] # This might be the name of things as of 081418
+    #site_data = org_data["Project"] # 
     
     # Get all of the personal IDs from the enrollment file.
     personalids = get_pids(enrollment_data)
@@ -191,9 +194,13 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     project_type = project_data['ProjectType']
     
     # Get personal IDs from each file.
-    pidEN = enrollment_data['PersonalID']
-    pidEX = exit_data['PersonalID']
-    pidCL=client_data['PersonalID']
+    #pidEN = enrollment_data['PersonalID']
+    #pidEX = exit_data['PersonalID']
+    #pidCL=client_data['PersonalID']
+
+    pidEN = enrollment_data['PIN']
+    pidEX = exit_data['PIN']
+    pidCL=client_data['PIN']
             
     #unames = np.unique(pidEN) 
 
@@ -202,16 +209,21 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
     exit_date=exit_data['ExitDate']
 
     # Get project IDs for each file.
-    project_entry_ID_EN=enrollment_data['ProjectEntryID']
-    project_entry_ID_EX = exit_data['ProjectEntryID']
+    #project_entry_ID_EN=enrollment_data['ProjectEntryID']
+    #project_entry_ID_EX = exit_data['ProjectEntryID']
+    project_entry_ID_EN=enrollment_data['EnrollmentID']
+    project_entry_ID_EX = exit_data['EnrollmentID']
     projectID_EN=enrollment_data['ProjectID']
     
     # Get info from client file.
     client_dob= client_data['DOB']
     
     # Get site zip codes.
-    zip_codes=site_data['ZIP']
     projectID_site=site_data['ProjectID']  
+    zip_codes=site_data['ZIP']
+    # Will change this back after Dutchess county stuff. Need to look
+    # further down in code as well
+    #zip_codes=(12603*np.ones(len(projectID_site),dtype=int)).astype(str)
     
     # List of all of the projects in the CoC.
     project_index=project_types()
@@ -276,13 +288,20 @@ def create_dictionary_list(directory='~/hmis_data/',filenames=None,max_people=No
             print(len(project_index))
             '''
 
-            this_proj_type = project_index[int(project_type[project_num])-1]
+            #print("project_num", project_num)
+            #print("project_type[project_num]",project_type[project_num], type(project_type[project_num]))
+            #print("project_index", project_index)
+            #print(int(float(project_type[project_num]))-1)
+            this_proj_type = project_index[int(float(project_type[project_num]))-1]
 
             # Get the Zip code for the project
+            #'''
             if (len(zip_codes[projid==projectID_site])>0):
                 num_for_zip = zip_codes[projid==projectID_site].index[0]
 
             this_zip=zip_codes[num_for_zip]
+            #'''
+            #this_zip='12603'
 
             # Get the entry and exit dates.
             thisindate = indate[indate.index[num]]

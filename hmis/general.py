@@ -54,7 +54,8 @@ def get_date_from_string(datestring):
         
     """
     
-    date = pd.to_datetime(datestring)
+    #print(datestring)
+    date = pd.to_datetime(datestring, errors='coerce')
 
     # Convert to datetime.datetime object for more standard
     # manipulation
